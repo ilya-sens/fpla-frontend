@@ -3,29 +3,21 @@
         <div class="col-md-4 push-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar"/>
             <h1>SB Admin BS4 Angular4</h1>
-            <form role="form">
+            <form role="form" ngSubmit="onLogin()">
                 <div class="form-content">
                     <div class="form-group">
                         <input type="text" class="form-control input-underline input-lg"
-                               name="username" placeholder="User name"
-                               [(ngModel)]="model.username" #username="ngModel" required />
-                        <!--<div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>-->
-                        <!--<input type="text" ng-model="name" class="form-control input-underline input-lg" id=""-->
-                               <!--placeholder="Email">-->
+                               name="Email" placeholder="Email"
+                               [(ngModel)]="model.email" #email="ngModel" required />
                     </div>
 
                     <div class="form-group">
-                        <!--<input type="password" class="form-control input-underline input-lg" id=""-->
-                               <!--placeholder="Password">-->
                         <input type="password" class="form-control input-underline input-lg"
                                name="password" placeholder="Password"
                                [(ngModel)]="model.password" #password="ngModel" required />
-                        <!--<div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>-->
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLogin()"> Log in </a>
-                &nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
+                <button type="submit" class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLogin()">Log in</button>
             </form>
         </div>
     </div>
