@@ -14,16 +14,6 @@ import {AuthenticationService} from "../shared/services/authentication.service";
     providers: [AuthenticationService, AlertService]
 })
 export class LoginComponent implements OnInit {
-    //
-    // constructor(public router: Router) {
-    // }
-    //
-    // ngOnInit() {
-    // }
-    //
-    // onLoggedin() {
-    //     localStorage.setItem('isLoggedin', 'true');
-    // }
 
     model: any = {};
     loading = false;
@@ -48,7 +38,6 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.model.email, this.model.password)
             .subscribe(
                 data => {
-                    console.log(this.returnUrl);
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
