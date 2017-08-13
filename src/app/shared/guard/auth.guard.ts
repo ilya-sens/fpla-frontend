@@ -14,25 +14,12 @@ export class AuthGuard implements CanActivate {
 
     canActivate() {
         let user = JSON.parse(localStorage.getItem('currentUser'));
-        let lastCheck: number = +JSON.parse(localStorage.getItem('lastAuthCheck'));
-        let currentDate: number = new Date().getTime();
-        if (lastCheck && lastCheck + 60 * 1000 > currentDate) {
-            return true;
-        }
         if (user) {
-            this.authService.isLoggedIn(user.token).subscribe(
-            data => {
-                if (data.user.token == user.token) {
-                    localStorage.setItem('lastAuthCheck', ""+currentDate);
-                    return true;
-                }
-            }, error => {
-                this.alertService.error(error);
-            });
+            return true;
+        } else {
+            this.router.navigate(['/login']);
+            return false;
         }
-
-        this.router.navigate(['/login']);
-        return false;
     }
 
 }

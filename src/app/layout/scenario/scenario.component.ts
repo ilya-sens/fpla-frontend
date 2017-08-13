@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Http, Response} from '@angular/http';
+import {GlobalConfig} from "../../global";
 
 @Component({
     selector: 'app-scenario',
@@ -11,16 +12,17 @@ export class ScenarioComponent implements OnInit {
 
     constructor(private http: Http) {
         this.data = this.getData();
-        console.log(this.data);
     }
 
     ngOnInit() {
     }
 
     getData() {
-        return this.http.get("http://localhost:8080/api/scenario")
+        return this.http.get(GlobalConfig.BASE_API_URL + "/scenarios")
             .map((res: Response) => res.json())
-            .subscribe(data => {console.log(data); this.data = data;});
+            .subscribe(data => {
+                this.data = data._embedded.scenarios;
+            });
     }
 
     saveData() {
