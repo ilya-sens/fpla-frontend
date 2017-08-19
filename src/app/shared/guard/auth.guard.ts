@@ -13,8 +13,8 @@ export class AuthGuard implements CanActivate {
     ) {}
 
     canActivate() {
-        let user = JSON.parse(localStorage.getItem('currentUser'));
-        if (user) {
+        let token = sessionStorage.getItem('token');
+        if (token) {
             return true;
         } else {
             this.router.navigate(['/login']);

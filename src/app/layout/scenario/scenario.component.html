@@ -1,3 +1,36 @@
-<p>
-    {{data}}
-</p>
+<div *ngFor="let scenarioModel of scenarioModels" class="row">
+    <div class="col-sm-8">
+        <div class="card card-default mb-3">
+            <div class="card-header">
+                <span>
+                    {{scenarioModel.name}}
+                </span>
+                <span class="pull-right small color-gray">
+                    {{scenarioModel.createdAt | date: dateFormat }}
+                </span>
+            </div>
+            <div class="card-block">
+                <!-- script card -->
+                <div *ngFor="let scenarioScriptModel of scenarioModel.scenarioScripts | orderBy: 'index'"
+                     class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-default mb-3">
+                            <div class="card-header">
+                            <span>
+                                {{getScriptById(scenarioScriptModel.id).name}}
+                            </span>
+                                <span class="pull-right small color-gray">
+                                {{getScriptById(scenarioScriptModel.id).createdAt | date: dateFormat }}
+                            </span>
+                            </div>
+                            <div class="card-block">
+                                {{getScriptById(scenarioScriptModel.id).sequence}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /script card -->
+            </div>
+        </div>
+    </div>
+</div>

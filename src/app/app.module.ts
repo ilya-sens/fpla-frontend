@@ -11,8 +11,11 @@ import {AuthGuard} from './shared';
 import {AuthenticationService} from "./shared/services/authentication.service";
 import {AlertService} from "./shared/services/alert.service";
 import {DefaultRequestOptions} from "./default-request-options";
+import {Ng2OrderModule} from "ng2-order-pipe";
+import {ResourceModule} from "ngx-resource";
+import {authHttpServiceFactory, AuthModule} from "./auth.module";
+import {AuthHttp} from "angular2-jwt";
 
-export let GLOBAL_HEADERS: Array<any> = [{'Content-Type':'application/json'}];
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -28,23 +31,26 @@ export function HttpLoaderFactory(http: Http) {
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
+        AuthModule,
         AppRoutingModule,
+        Ng2OrderModule,
+        ResourceModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
                 deps: [Http]
             }
-        })
+        }),
     ],
     providers: [
         AuthGuard,
         AuthenticationService,
         AlertService,
-        {provide: RequestOptions, useClass: DefaultRequestOptions }
+        {provide: RequestOptions, useClass: DefaultRequestOptions},
+        {provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions]}
     ],
-    bootstrap: [AppComponent
-    ]
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
