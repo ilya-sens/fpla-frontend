@@ -1,14 +1,18 @@
 <div *ngFor="let scenarioModel of scenarioModels" class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12">
         <div class="card card-default mb-3">
             <div class="card-header">
-                <div class="row">
-                    <span class="col-sm-8">
-                        <editable-element [(value)]="scenarioModel.name"></editable-element>
-                    </span>
-                    <span class="col-sm-4 pull-right small color-gray">
-                        {{scenarioModel.createdAt | date: dateFormat }}
-                    </span>
+                <div class="card-header-name">
+                    <editable-element [(value)]="scenarioModel.name"
+                                      (valueChange)="updateScenario(scenarioModel)"></editable-element>
+                </div>
+                <div class="card-header-dates">
+                    <div class="card-header-date">
+                        created: {{scenarioModel.createdAt | date: dateFormat }}
+                    </div>
+                    <div class="card-header-date">
+                        updated: {{scenarioModel.updatedAt | date: dateFormat }}
+                    </div>
                 </div>
             </div>
             <div class="card-block">
@@ -18,15 +22,23 @@
                     <div class="col-sm-12">
                         <div class="card card-default mb-3">
                             <div class="card-header">
-                            <span>
-                                <editable-element [(value)]="getScriptById(scenarioScriptModel.id).name"></editable-element>
-                            </span>
-                                <span class="pull-right small color-gray">
-                                {{getScriptById(scenarioScriptModel.id).createdAt | date: dateFormat }}
-                            </span>
+                                <div class="card-header-name">
+                                    <editable-element [(value)]="getScriptById(scenarioScriptModel.id).name"
+                                        (valueChange)="updateScript(getScriptById(scenarioScriptModel.id))"></editable-element>
+                                </div>
+                                <div class="card-header-dates">
+                                    <div class="card-header-date">
+                                        created: {{getScriptById(scenarioScriptModel.id).createdAt | date: dateFormat }}
+                                    </div>
+                                    <div class="card-header-date">
+                                        updated: {{getScriptById(scenarioScriptModel.id).updatedAt | date: dateFormat }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-block">
-                                <editable-element [(value)]="getScriptById(scenarioScriptModel.id).sequence" [type]="typeEnum.textArea"></editable-element>
+                                <editable-element [(value)]="getScriptById(scenarioScriptModel.id).sequence"
+                                                  (valueChange)="updateScript(getScriptById(scenarioScriptModel.id))"
+                                                  [type]="typeEnum.textArea"></editable-element>
                             </div>
                         </div>
                     </div>
