@@ -2,12 +2,14 @@
     <div class="col-sm-8">
         <div class="card card-default mb-3">
             <div class="card-header">
-                <span>
-                    {{scenarioModel.name}}
-                </span>
-                <span class="pull-right small color-gray">
-                    {{scenarioModel.createdAt | date: dateFormat }}
-                </span>
+                <div class="row">
+                    <span class="col-sm-8">
+                        <editable-element [(value)]="scenarioModel.name"></editable-element>
+                    </span>
+                    <span class="col-sm-4 pull-right small color-gray">
+                        {{scenarioModel.createdAt | date: dateFormat }}
+                    </span>
+                </div>
             </div>
             <div class="card-block">
                 <!-- script card -->
@@ -17,14 +19,14 @@
                         <div class="card card-default mb-3">
                             <div class="card-header">
                             <span>
-                                {{getScriptById(scenarioScriptModel.id).name}}
+                                <editable-element [(value)]="getScriptById(scenarioScriptModel.id).name"></editable-element>
                             </span>
                                 <span class="pull-right small color-gray">
                                 {{getScriptById(scenarioScriptModel.id).createdAt | date: dateFormat }}
                             </span>
                             </div>
                             <div class="card-block">
-                                {{getScriptById(scenarioScriptModel.id).sequence}}
+                                <editable-element [(value)]="getScriptById(scenarioScriptModel.id).sequence" [type]="typeEnum.textArea"></editable-element>
                             </div>
                         </div>
                     </div>
@@ -34,3 +36,5 @@
         </div>
     </div>
 </div>
+
+<button class="btn btn-danger" (click)="log()">LOG</button>

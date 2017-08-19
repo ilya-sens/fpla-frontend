@@ -15,6 +15,7 @@ import {Ng2OrderModule} from "ng2-order-pipe";
 import {ResourceModule} from "ngx-resource";
 import {authHttpServiceFactory, AuthModule} from "./auth.module";
 import {AuthHttp} from "angular2-jwt";
+import {CommonModule} from "@angular/common";
 
 
 // AoT requires an exported function for factories
@@ -32,6 +33,7 @@ export function HttpLoaderFactory(http: Http) {
         FormsModule,
         HttpModule,
         AuthModule,
+        CommonModule,
         AppRoutingModule,
         Ng2OrderModule,
         ResourceModule.forRoot(),
