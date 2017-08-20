@@ -29,6 +29,7 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "ng2-charts": "^1.6.0",
+    "ng2-drag-drop": "^2.6.0",
     "ng2-order-pipe": "^0.1.5",
     "ngx-resource": "^3.2.7",
     "rxjs": "^5.1.0",

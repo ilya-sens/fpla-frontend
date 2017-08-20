@@ -1,5 +1,5 @@
 <div *ngFor="let scenarioModel of scenarioModels" class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 col-xl-8">
         <div class="card card-default mb-3">
             <div class="card-header">
                 <div class="card-header-name">
@@ -17,14 +17,18 @@
             </div>
             <div class="card-block">
                 <!-- script card -->
-                <div *ngFor="let scenarioScriptModel of scenarioModel.scenarioScripts | orderBy: 'index'"
-                     class="row">
-                    <div class="col-sm-12">
+                <div class="row" *ngFor="let scenarioScriptModel of scenarioModel.scenarioScripts | orderBy: 'index'; let i = index" >
+                    <div class="col-sm-12 drop-placeholder"
+                         *ngIf="i === 0" droppable
+                         (onDrop)="changeIndex($event, scenarioScriptModel.index)"></div>
+                    <div class="col-sm-12" draggable [dragData]="scenarioScriptModel">
                         <div class="card card-default mb-3">
                             <div class="card-header">
                                 <div class="card-header-name">
-                                    <editable-element [(value)]="getScriptById(scenarioScriptModel.id).name"
-                                        (valueChange)="updateScript(getScriptById(scenarioScriptModel.id))"></editable-element>
+                                    <editable-element
+                                        [(value)]="getScriptById(scenarioScriptModel.id).name"
+                                        (valueChange)="updateScript(getScriptById(scenarioScriptModel.id))">
+                                    </editable-element>
                                 </div>
                                 <div class="card-header-dates">
                                     <div class="card-header-date">
@@ -42,6 +46,8 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12 drop-placeholder"
+                         droppable (onDrop)="changeIndex($event, scenarioScriptModel.index + 1)"></div>
                 </div>
                 <!-- /script card -->
             </div>

@@ -16,6 +16,7 @@ import {ResourceModule} from "ngx-resource";
 import {authHttpServiceFactory, AuthModule} from "./auth.module";
 import {AuthHttp} from "angular2-jwt";
 import {CommonModule} from "@angular/common";
+import {Ng2DragDropModule} from "ng2-drag-drop";
 
 
 // AoT requires an exported function for factories
@@ -36,6 +37,7 @@ export function HttpLoaderFactory(http: Http) {
         CommonModule,
         AppRoutingModule,
         Ng2OrderModule,
+        Ng2DragDropModule.forRoot(),
         ResourceModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
