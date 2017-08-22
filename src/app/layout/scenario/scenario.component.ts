@@ -7,6 +7,11 @@ import {DropEvent} from "ng2-drag-drop";
 import {ScriptResourceService} from "./script-resource.service";
 import {ScenarioResourceService} from "./scenario-resource.service";
 import {ScenarioScriptResourceService} from "./scenario-script-resource.service";
+import {ScenarioModel} from "./scenario.model";
+import {ScriptModel} from "./script.model";
+import {ScenarioScriptModel} from "./scenario-script.model";
+
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-scenario',
@@ -15,19 +20,17 @@ import {ScenarioScriptResourceService} from "./scenario-script-resource.service"
     providers: [ScriptResourceService, ScenarioResourceService, ScenarioScriptResourceService]
 })
 export class ScenarioComponent implements OnInit {
-    scenarioModels: Array<ScenarioModel>;
-    scriptModels: Array<ScriptModel>;
-    scenarioScriptModels: Array<ScenarioScriptModel>;
+    scenarios: Array<ScenarioModel>;
+    scripts: Array<ScriptModel>;
+    scenarioScripts: Array<ScenarioScriptModel>;
 
     dateFormat: String = GlobalConfig.DATE_FORMAT;
     typeEnum = TypeEnum;
 
-    constructor(
-        private alertService: AlertService,
-        private scriptResource: ScriptResourceService,
-        private scenarioResource: ScenarioResourceService,
-        private scenarioScriptResource: ScenarioScriptResourceService,
-    ) {
+    constructor(private alertService: AlertService,
+                private scriptResource: ScriptResourceService,
+                private scenarioResource: ScenarioResourceService,
+                private scenarioScriptResource: ScenarioScriptResourceService,) {
         this.loadData();
     }
 
@@ -36,33 +39,34 @@ export class ScenarioComponent implements OnInit {
 
     loadData() {
         Observable.forkJoin([
-            this.scenarioResource.getAll("?populate=scenarioScripts"),
+            this.scenarioResource.getAll(),
             this.scriptResource.getAll(),
             this.scenarioScriptResource.getAll()
         ]).subscribe(
             results => {
-                this.scenarioModels = results[0].data;
-                this.scriptModels = results[1].data;
-                this.scenarioScriptModels = results[2].data;
+                this.scenarios = results[0].data;
+                this.scripts = results[1].data;
+                this.scenarioScripts = results[2].data;
             }
         );
     }
 
-
-    getScriptById(id): ScriptModel {
-        return this.scriptModels.find(it => {
-            return it.id == id
-        });
+    getScenarioScriptsOfScenario(scenarioId): Array<ScenarioScriptModel> {
+        return _.filter(this.scenarioScripts, it => {return it.scenario == scenarioId});
     }
 
-    updateScenario(scenario: ScenarioModel) {
+    getScriptById(id): ScriptModel {
+        return this.scripts.find(it => { return it.id == id});
+    }
+
+    updateScenario(scenario) {
         this.scenarioResource.update(scenario).subscribe(result => {
             this.loadData();
             this.alertService.success(result.message);
         });
     }
 
-    updateScript(script: ScriptModel) {
+    updateScript(script) {
         this.scriptResource.update(script).subscribe(result => {
                 this.loadData();
                 this.alertService.success(result.message);
@@ -73,7 +77,7 @@ export class ScenarioComponent implements OnInit {
     changeIndex($event: DropEvent, index: number) {
         let scenarioScriptModel = $event.dragData as ScenarioScriptModel;
         if (scenarioScriptModel.index != index) {
-            let scenarioScriptsOfScenario = this.scenarioScriptModels.filter(it => {
+            let scenarioScriptsOfScenario = this.scenarioScripts.filter(it => {
                 return it.scenario == scenarioScriptModel.scenario
             });
             scenarioScriptsOfScenario.forEach(it => {
@@ -86,6 +90,38 @@ export class ScenarioComponent implements OnInit {
             this.checkIndexStart(scenarioScriptsOfScenario);
             this.loadData();
         }
+    }
+
+    createScenario() {
+        let scenario: ScenarioModel = new ScenarioModel();
+        this.scenarioResource.create(scenario).subscribe(ignore => {
+            this.loadData();
+        });
+    }
+
+    createScript(scenarioIndex) {
+        let script: ScriptModel = new ScriptModel();
+        this.scriptResource.create(script).subscribe(result => {
+            script = result.data
+        });
+        let scenario: ScenarioModel = this.scenarios[scenarioIndex];
+        this.createScenarioScript(scenario, script);
+        this.loadData();
+    }
+
+    addScript(scenarioIndex, scriptIndex) {
+        let script: ScriptModel = this.scripts[scriptIndex];
+        let scenario: ScenarioModel = this.scenarios[scenarioIndex];
+        this.createScenarioScript(scenario, script);
+        this.loadData();
+    }
+
+    private createScenarioScript(scenario, script) {
+        let obj =  _.filter(this.scenarioScripts, it => {return it.scenario == scenario.id});
+        let maxIndex = _.isEmpty(obj) ? 0 : _.maxBy(obj, 'index').index;
+        let scenarioScript = new ScenarioScriptModel(scenario, script);
+        scenarioScript.index = Number(maxIndex) ? Number(maxIndex) : 0;
+        this.scenarioScriptResource.create(scenarioScript).subscribe();
     }
 
     private checkIndexStart(scenarioScripts: Array<ScenarioScriptModel>) {
@@ -103,9 +139,10 @@ export class ScenarioComponent implements OnInit {
     }
 
     log() {
-        console.log(this.scenarioModels);
-        console.log(this.scenarioScriptModels);
-        this.scriptResource.getAll().subscribe(it => {console.log(it) });
+        // console.log(this.scenarios);
+        // console.log(this.scenarioScripts);
+        this.scriptResource.getAll().subscribe(it => {
+            console.log(it)
+        });
     }
-
 }

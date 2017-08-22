@@ -1,41 +1,61 @@
-<div *ngFor="let scenarioModel of scenarioModels" class="row">
+<div *ngFor="let scenario of scenarios; let scenarioIndex = index" class="row">
     <div class="col-sm-12 col-xl-8">
         <div class="card card-default mb-3">
             <div class="card-header">
                 <div class="card-header-name">
-                    <editable-element [(value)]="scenarioModel.name"
-                                      (valueChange)="updateScenario(scenarioModel)"></editable-element>
+                    <editable-element [(value)]="scenario.name"
+                                      (valueChange)="updateScenario(scenario)"></editable-element>
                 </div>
                 <div class="card-header-dates">
                     <div class="card-header-date">
-                        created: {{scenarioModel.createdAt | date: dateFormat }}
+                        created: {{scenario.createdAt | date: dateFormat }}
                     </div>
                     <div class="card-header-date">
-                        updated: {{scenarioModel.updatedAt | date: dateFormat }}
+                        updated: {{scenario.updatedAt | date: dateFormat }}
                     </div>
+                </div>
+                <div class="card-header-buttons btn-group">
+                    <button class="btn btn-outline-danger" (click)="createScript()"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
             <div class="card-block">
-                <div class="row" *ngFor="let scenarioScriptModel of scenarioModel.scenarioScripts | orderBy: 'index'; let i = index">
+                <div class="row drop-placeholder-wrapper"
+                     *ngFor="let scenarioScript of getScenarioScriptsOfScenario(scenario.id) | orderBy: 'index'; let scenarioScriptIndex = index">
                     <div class="col-sm-12 drop-placeholder"
-                         *ngIf="i === 0" droppable
-                         (onDrop)="changeIndex($event, scenarioScriptModel.index)"></div>
-                    <div class="col-sm-12" draggable [dragData]="scenarioScriptModel" #script >
-                        <!-- script card -->
-                        <script-component [script]="getScriptById(scenarioScriptModel.id)"
-                                          (scriptChange)="updateScript(script)">
-                        </script-component>
-                        <!-- /script card -->
+                         *ngIf="scenarioScriptIndex === 0" droppable
+                         (onDrop)="changeIndex($event, scenarioScript.index)"></div>
+                    <div class="col-sm-12" draggable [dragData]="scenarioScript" #script>
+                        <script-component [script]="getScriptById(scenarioScript.script)"></script-component>
                     </div>
                     <div class="col-sm-12 drop-placeholder"
-                         droppable (onDrop)="changeIndex($event, scenarioScriptModel.index + 1)"></div>
+                         droppable (onDrop)="changeIndex($event, scenarioScript.index + 1)"></div>
                 </div>
-                <!--<div class="row" *ngIf="creatingNewScenario">-->
-                    <!---->
-                <!--</div>-->
+                <div class="pull-right">
+                    Script:
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-success" (click)="createScript(scenarioIndex)">New</button>
+                        <div class="btn-group" role="group" ngbDropdown>
+                            <button class="btn btn-outline-primary" ngbDropdownToggle>
+                                Select existing <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" *ngFor="let script of scripts; let scriptIndex = index"
+                                        (click)="addScript(scenarioIndex, scriptIndex)">
+                                    {{script.name}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div class="pull-right">
+    <div class="btn-group" role="group">
+        <button class="btn btn-secondary" (click)="createScenario()">New Scenario</button>
+    </div>
+</div>
 
 <button class="btn btn-danger" (click)="log()">LOG</button>
+

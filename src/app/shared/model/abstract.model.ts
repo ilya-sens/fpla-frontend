@@ -1,4 +1,4 @@
-interface AbstractModel {
+export abstract class AbstractModel {
     id: number;
     createdAt: Date;
     updatedAt: Date;

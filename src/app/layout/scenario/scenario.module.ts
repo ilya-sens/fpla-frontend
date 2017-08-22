@@ -5,10 +5,10 @@ import {ScenarioRoutingModule} from './scenario-routing.module';
 import {ScenarioComponent} from './scenario.component';
 import {PageHeaderModule} from './../../shared';
 import {Ng2OrderModule} from "ng2-order-pipe";
-import {EditableElementComponent} from "../../shared/modules/editable-element/editable-element.component";
 import {EditableElementModule} from "../../shared/modules/editable-element/editable-element.module";
 import {Ng2DragDropModule} from "ng2-drag-drop";
 import {ScriptComponent} from "./script.component";
+import {NgbDropdown, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     imports: [
@@ -17,12 +17,16 @@ import {ScriptComponent} from "./script.component";
         PageHeaderModule,
         Ng2OrderModule,
         Ng2DragDropModule,
-        EditableElementModule
+        EditableElementModule,
+        NgbModule,
     ],
     declarations: [
         ScenarioComponent,
         ScriptComponent,
     ],
+    providers: [
+        NgbDropdown
+    ]
 })
 export class ScenarioModule {
 }

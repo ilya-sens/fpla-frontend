@@ -1,5 +1,15 @@
-interface ScenarioScriptModel extends AbstractModel {
+import {ScenarioModel} from "./scenario.model";
+import {ScriptModel} from "./script.model";
+import {AbstractModel} from "../../shared/model/abstract.model";
+
+export class ScenarioScriptModel extends AbstractModel {
     index: number;
-    scenario: ScenarioModel;
-    script: ScriptModel;
+    scenario: number;
+    script: number;
+
+    constructor(scenario: number, script: number) {
+        super();
+        this.scenario = scenario;
+        this.script = script;
+    }
 }

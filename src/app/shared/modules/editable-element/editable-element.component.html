@@ -3,7 +3,7 @@
 <div class="input-group" [hidden]="!edit" *ngIf="type == typeEnum.input">
     <input class="form-control" #input (keyup.enter)="saveChanges(input.value)" value="{{value}}">
     <span class="input-group-btn">
-        <button class="btn btn-default" type="button" (click)="saveChanges(input.value)">Ok</button>
+        <button class="btn btn-outline-primary" type="button" (click)="saveChanges(input.value)">Ok</button>
     </span>
 </div>
 <!-- typeEnum.textArea -->
@@ -12,6 +12,6 @@
         <textarea (change)="value = $event.target.value">{{value}}</textarea>
     </div>
     <div class="col-sm-2">
-        <button class="btn btn-default" type="button" (click)="saveChanges(value)">Ok</button>
+        <button class="btn btn-outline-primary" type="button" (click)="saveChanges(value)">Ok</button>
     </div>
 </div>

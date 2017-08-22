@@ -22,7 +22,9 @@
 
 .drag-hint-border {
     border: #3c763d dashed 2px;
+    position: absolute;
     min-height: 50px;
+    top: -50px;
 }
 
 .drag-over-border {

@@ -1,5 +1,12 @@
-interface ScriptModel extends AbstractModel {
+import {AbstractModel} from "../../shared/model/abstract.model";
+
+export class ScriptModel extends AbstractModel {
     name: string;
     sequence: string;
-    createdDate: Date;
+
+    constructor() {
+        super();
+        this.name = "new scenario";
+        this.sequence= "// todo implement";
+    }
 }

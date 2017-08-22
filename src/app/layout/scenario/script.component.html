@@ -2,8 +2,7 @@
     <div class="card-header">
         <div class="card-header-name">
             <editable-element
-                [(value)]="script.name"
-                (valueChange)="script.id">
+                [(value)]="script.name" (valueChange)="updateScript(script.id)">
             </editable-element>
         </div>
         <div class="card-header-dates">
