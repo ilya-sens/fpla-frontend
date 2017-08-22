@@ -48,6 +48,7 @@ export class ScenarioComponent implements OnInit {
         );
     }
 
+
     getScriptById(id): ScriptModel {
         return this.scriptModels.find(it => {
             return it.id == id
@@ -72,7 +73,7 @@ export class ScenarioComponent implements OnInit {
     changeIndex($event: DropEvent, index: number) {
         let scenarioScriptModel = $event.dragData as ScenarioScriptModel;
         if (scenarioScriptModel.index != index) {
-            var scenarioScriptsOfScenario = this.scenarioScriptModels.filter(it => {
+            let scenarioScriptsOfScenario = this.scenarioScriptModels.filter(it => {
                 return it.scenario == scenarioScriptModel.scenario
             });
             scenarioScriptsOfScenario.forEach(it => {
@@ -82,20 +83,23 @@ export class ScenarioComponent implements OnInit {
                     it.index++;
                 }
             });
-            let minIndex = Math.min.apply(Math, scenarioScriptsOfScenario.map(it => {
-                return it.index
-            }));
-            if (minIndex > 0) {
-                scenarioScriptsOfScenario.forEach(it => {
-                    it.index--
-                })
-            }
-            scenarioScriptsOfScenario.forEach(it => {
-                this.scenarioScriptResource.update(it).subscribe();
-            });
-            console.log(minIndex);
+            this.checkIndexStart(scenarioScriptsOfScenario);
             this.loadData();
         }
+    }
+
+    private checkIndexStart(scenarioScripts: Array<ScenarioScriptModel>) {
+        let minIndex = Math.min.apply(Math, scenarioScripts.map(it => {
+            return it.index
+        }));
+        if (minIndex > 0) {
+            scenarioScripts.forEach(it => {
+                it.index--
+            })
+        }
+        scenarioScripts.forEach(it => {
+            this.scenarioScriptResource.update(it).subscribe();
+        });
     }
 
     log() {

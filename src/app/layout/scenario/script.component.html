@@ -1,0 +1,23 @@
+<div class="card card-default mb-3">
+    <div class="card-header">
+        <div class="card-header-name">
+            <editable-element
+                [(value)]="script.name"
+                (valueChange)="script.id">
+            </editable-element>
+        </div>
+        <div class="card-header-dates">
+            <div class="card-header-date">
+                created: {{script.createdAt | date: dateFormat }}
+            </div>
+            <div class="card-header-date">
+                updated: {{script.updatedAt | date: dateFormat }}
+            </div>
+        </div>
+    </div>
+    <div class="card-block">
+        <editable-element [(value)]="script.sequence"
+                          (valueChange)="updateScript(script)"
+                          [type]="typeEnum.textArea"></editable-element>
+    </div>
+</div>

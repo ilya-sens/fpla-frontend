@@ -16,40 +16,23 @@
                 </div>
             </div>
             <div class="card-block">
-                <!-- script card -->
-                <div class="row" *ngFor="let scenarioScriptModel of scenarioModel.scenarioScripts | orderBy: 'index'; let i = index" >
+                <div class="row" *ngFor="let scenarioScriptModel of scenarioModel.scenarioScripts | orderBy: 'index'; let i = index">
                     <div class="col-sm-12 drop-placeholder"
                          *ngIf="i === 0" droppable
                          (onDrop)="changeIndex($event, scenarioScriptModel.index)"></div>
-                    <div class="col-sm-12" draggable [dragData]="scenarioScriptModel">
-                        <div class="card card-default mb-3">
-                            <div class="card-header">
-                                <div class="card-header-name">
-                                    <editable-element
-                                        [(value)]="getScriptById(scenarioScriptModel.id).name"
-                                        (valueChange)="updateScript(getScriptById(scenarioScriptModel.id))">
-                                    </editable-element>
-                                </div>
-                                <div class="card-header-dates">
-                                    <div class="card-header-date">
-                                        created: {{getScriptById(scenarioScriptModel.id).createdAt | date: dateFormat }}
-                                    </div>
-                                    <div class="card-header-date">
-                                        updated: {{getScriptById(scenarioScriptModel.id).updatedAt | date: dateFormat }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-block">
-                                <editable-element [(value)]="getScriptById(scenarioScriptModel.id).sequence"
-                                                  (valueChange)="updateScript(getScriptById(scenarioScriptModel.id))"
-                                                  [type]="typeEnum.textArea"></editable-element>
-                            </div>
-                        </div>
+                    <div class="col-sm-12" draggable [dragData]="scenarioScriptModel" #script >
+                        <!-- script card -->
+                        <script-component [script]="getScriptById(scenarioScriptModel.id)"
+                                          (scriptChange)="updateScript(script)">
+                        </script-component>
+                        <!-- /script card -->
                     </div>
                     <div class="col-sm-12 drop-placeholder"
                          droppable (onDrop)="changeIndex($event, scenarioScriptModel.index + 1)"></div>
                 </div>
-                <!-- /script card -->
+                <!--<div class="row" *ngIf="creatingNewScenario">-->
+                    <!---->
+                <!--</div>-->
             </div>
         </div>
     </div>
