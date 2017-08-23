@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="card-header-buttons btn-group">
-                    <button class="btn btn-outline-danger" (click)="createScript()"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-outline-danger" (click)="deleteScenario(scenario)"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
             <div class="card-block">
@@ -25,7 +25,11 @@
                          *ngIf="scenarioScriptIndex === 0" droppable
                          (onDrop)="changeIndex($event, scenarioScript.index)"></div>
                     <div class="col-sm-12" draggable [dragData]="scenarioScript" #script>
-                        <script-component [script]="getScriptById(scenarioScript.script)"></script-component>
+                        <script-component
+                            [script]="getScriptById(scenarioScript.script)" [removable]="true" [deletable]="true"
+                            (scriptDelete)="deleteScript(getScriptById(scenarioScript.script))"
+                            (scriptRemove)="deleteScenarioScript(scenarioScript)">
+                        </script-component>
                     </div>
                     <div class="col-sm-12 drop-placeholder"
                          droppable (onDrop)="changeIndex($event, scenarioScript.index + 1)"></div>

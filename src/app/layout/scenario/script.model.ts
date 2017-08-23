@@ -6,7 +6,7 @@ export class ScriptModel extends AbstractModel {
 
     constructor() {
         super();
-        this.name = "new scenario";
+        this.name = "new script";
         this.sequence= "// todo implement";
     }
 }

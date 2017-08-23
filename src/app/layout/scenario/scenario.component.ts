@@ -116,6 +116,24 @@ export class ScenarioComponent implements OnInit {
         this.loadData();
     }
 
+    deleteScenarioScript(scenarioScript) {
+        this.scenarioScriptResource.remove(scenarioScript).subscribe(ignore => {
+            this.loadData();
+        });
+    }
+
+    deleteScript(script) {
+        this.scriptResource.remove(script).subscribe(ignore => {
+            this.loadData();
+        });
+    }
+
+    deleteScenario(scenario: ScenarioModel) {
+        this.scenarioResource.remove(scenario).subscribe(ignore => {
+            this.loadData()
+        })
+    }
+
     private createScenarioScript(scenario, script) {
         let obj =  _.filter(this.scenarioScripts, it => {return it.scenario == scenario.id});
         let maxIndex = _.isEmpty(obj) ? 0 : _.maxBy(obj, 'index').index;

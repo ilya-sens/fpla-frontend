@@ -13,7 +13,11 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 })
 export class ScriptComponent implements OnInit {
     @Input() script: ScriptModel;
+    @Input() deletable: Boolean;
+    @Input() removable: Boolean;
     @Output() scriptChange: EventEmitter<ScriptModel> = new EventEmitter();
+    @Output() scriptRemove: EventEmitter<Boolean> = new EventEmitter();
+    @Output() scriptDelete: EventEmitter<Boolean> = new EventEmitter();
 
     dateFormat: String = GlobalConfig.DATE_FORMAT;
     typeEnum = TypeEnum;
@@ -26,10 +30,18 @@ export class ScriptComponent implements OnInit {
     ngOnInit() {
     }
 
-    updateScript(script) {
-        this.scriptResource.update(script).subscribe();
+    updateScript() {
+        this.scriptResource.update(this.script).subscribe();
         console.log("opa...");
-        console.log(script);
+        console.log(this.script);
         this.scriptChange.next(this.script);
+    }
+
+    delete() {
+        this.scriptDelete.next(true);
+    }
+
+    remove() {
+        this.scriptRemove.next(true);
     }
 }
