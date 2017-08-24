@@ -19,6 +19,15 @@
                 </div>
             </div>
             <div class="card-block">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <b>file name:</b>
+                    </div>
+                    <div class="col-sm-6">
+                        <editable-element [(value)]="scenario.fileName" (valueChange)="updateScenario(scenario)"></editable-element>
+                    </div>
+                    <pre class="col-sm-12">{{scenario.sequence}}</pre>
+                </div>
                 <div class="row drop-placeholder-wrapper"
                      *ngFor="let scenarioScript of getScenarioScriptsOfScenario(scenario.id) | orderBy: 'index'; let scenarioScriptIndex = index">
                     <div class="col-sm-12 drop-placeholder"

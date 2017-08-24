@@ -1,4 +1,4 @@
-<span class="editable pre" [hidden]="edit" (click)="edit = true">{{value}}</span>
+<span class="editable pre" [ngClass]="{'color-gray-light': !value}"  [hidden]="edit" (click)="edit = true">{{(value) ? value : defaultValue}}</span>
 <!-- typeEnum.input -->
 <div class="input-group" [hidden]="!edit" *ngIf="type == typeEnum.input">
     <input class="form-control" #input (keyup.enter)="saveChanges(input.value)" value="{{value}}">

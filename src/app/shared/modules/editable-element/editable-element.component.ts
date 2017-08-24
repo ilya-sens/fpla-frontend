@@ -14,6 +14,7 @@ export enum TypeEnum {
 export class EditableElementComponent implements OnInit {
     @Input() value: string;
     @Input() type: TypeEnum = TypeEnum.input;
+    @Input() defaultValue: string = "empty";
     @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
     public edit: boolean = false;

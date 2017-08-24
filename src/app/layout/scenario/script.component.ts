@@ -32,8 +32,6 @@ export class ScriptComponent implements OnInit {
 
     updateScript() {
         this.scriptResource.update(this.script).subscribe();
-        console.log("opa...");
-        console.log(this.script);
         this.scriptChange.next(this.script);
     }
 
