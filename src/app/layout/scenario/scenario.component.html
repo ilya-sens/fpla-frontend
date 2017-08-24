@@ -28,6 +28,16 @@
                     </div>
                     <pre class="col-sm-12">{{scenario.sequence}}</pre>
                 </div>
+                <div class="row">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-primary" (click)="generateScenarioFile(scenario)">
+                            <i class="fa fa-refresh"></i> generate scenario file
+                        </button>
+                        <button class="btn btn-outline-primary" (click)="uploadScenarioFile(scenario)">
+                            <i class="fa fa-upload"></i> upload to runner
+                        </button>
+                    </div>
+                </div>
                 <div class="row drop-placeholder-wrapper"
                      *ngFor="let scenarioScript of getScenarioScriptsOfScenario(scenario.id) | orderBy: 'index'; let scenarioScriptIndex = index">
                     <div class="col-sm-12 drop-placeholder"

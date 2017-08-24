@@ -12,8 +12,11 @@ export class AbstractResourceService {
         public name: string
     ) {}
 
-    public getAll(urlSuffix?: string): Observable<any> {
-        return this.http.get(urlSuffix ? this.url + urlSuffix : this.url).map(response => {return response.json()});
+    public get(id?: number, urlSuffix?: string): Observable<any> {
+        let url: string = this.url;
+        if (id) url += "/" + id;
+        if (urlSuffix) url += urlSuffix;
+        return this.http.get(url).map(response => {return response.json()});
     }
 
     public create(model: any, urlSuffix?: string): Observable<any> {

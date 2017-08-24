@@ -12,6 +12,7 @@ import {ScriptModel} from "./script.model";
 import {ScenarioScriptModel} from "./scenario-script.model";
 
 import * as _ from 'lodash';
+import {AuthHttp} from "angular2-jwt";
 
 @Component({
     selector: 'app-scenario',
@@ -30,6 +31,7 @@ export class ScenarioComponent implements OnInit {
     constructor(private alertService: AlertService,
                 private scriptResource: ScriptResourceService,
                 private scenarioResource: ScenarioResourceService,
+                private http : AuthHttp,
                 private scenarioScriptResource: ScenarioScriptResourceService,) {
         this.loadData();
     }
@@ -39,9 +41,9 @@ export class ScenarioComponent implements OnInit {
 
     loadData() {
         Observable.forkJoin([
-            this.scenarioResource.getAll(),
-            this.scriptResource.getAll(),
-            this.scenarioScriptResource.getAll()
+            this.scenarioResource.get(),
+            this.scriptResource.get(),
+            this.scenarioScriptResource.get()
         ]).subscribe(
             results => {
                 this.scenarios = results[0].data;
@@ -134,6 +136,16 @@ export class ScenarioComponent implements OnInit {
         })
     }
 
+    generateScenarioFile(scenario: ScenarioModel) {
+        this.scenarioResource.get(scenario.id,"/generate").subscribe(ignore => {
+            this.loadData()
+        })
+    }
+
+    uploadScenarioFile(scenario: ScenarioModel) {
+        this.http.post("http://localhost:5000/scenario/upload", scenario).subscribe();
+    }
+
     private createScenarioScript(scenario, script) {
         let obj =  _.filter(this.scenarioScripts, it => {return it.scenario == scenario.id});
         let maxIndex = _.isEmpty(obj) ? 0 : _.maxBy(obj, 'index').index;
@@ -159,7 +171,7 @@ export class ScenarioComponent implements OnInit {
     log() {
         // console.log(this.scenarios);
         // console.log(this.scenarioScripts);
-        this.scriptResource.getAll().subscribe(it => {
+        this.scriptResource.get().subscribe(it => {
             console.log(it)
         });
     }
