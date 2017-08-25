@@ -1,4 +1,4 @@
-import {AbstractModel} from "../../shared/model/abstract.model";
+import {AbstractModel} from "./abstract.model";
 
 export class ScriptModel extends AbstractModel {
     name: string;

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {GlobalConfig} from "../../global";
+import {GlobalConfig} from "../../../global";
 import {AuthHttp} from "angular2-jwt";
 import {Observable} from "rxjs/Observable";
 

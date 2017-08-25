@@ -1,5 +1,5 @@
 import {ScenarioScriptModel} from "./scenario-script.model";
-import {AbstractModel} from "../../shared/model/abstract.model";
+import {AbstractModel} from "./abstract.model";
 
 export class ScenarioModel extends AbstractModel {
     name: string;

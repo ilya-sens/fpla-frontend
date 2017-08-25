@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GlobalConfig} from "../../global";
 import {TypeEnum} from "../../shared/modules/editable-element/editable-element.component";
 import {AlertService} from "../../shared/services/alert.service";
-import {ScriptResourceService} from "./script-resource.service";
-import {ScriptModel} from "./script.model";
+import {ScriptResourceService} from "../../shared/services/resources/script-resource.service";
+import {ScriptModel} from "../../shared/model/script.model";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
