@@ -25,13 +25,15 @@ export class ScenarioComponent implements OnInit {
     scripts: Array<ScriptModel>;
     scenarioScripts: Array<ScenarioScriptModel>;
 
+    runningScripts: Array<any>;
+
     dateFormat: String = GlobalConfig.DATE_FORMAT;
     typeEnum = TypeEnum;
 
     constructor(private alertService: AlertService,
                 private scriptResource: ScriptResourceService,
                 private scenarioResource: ScenarioResourceService,
-                private http : AuthHttp,
+                private http: AuthHttp,
                 private scenarioScriptResource: ScenarioScriptResourceService,) {
         this.loadData();
     }
@@ -43,28 +45,44 @@ export class ScenarioComponent implements OnInit {
         Observable.forkJoin([
             this.scenarioResource.get(),
             this.scriptResource.get(),
-            this.scenarioScriptResource.get()
+            this.scenarioScriptResource.get(),
         ]).subscribe(
             results => {
                 this.scenarios = results[0].data;
                 this.scripts = results[1].data;
                 this.scenarioScripts = results[2].data;
+                this.getRunnerStatus()
             }
         );
     }
 
     getScenarioScriptsOfScenario(scenarioId): Array<ScenarioScriptModel> {
-        return _.filter(this.scenarioScripts, it => {return it.scenario == scenarioId});
+        return _.filter(this.scenarioScripts, it => {
+            return it.scenario == scenarioId
+        });
     }
 
     getScriptById(id): ScriptModel {
-        return this.scripts.find(it => { return it.id == id});
+        return this.scripts.find(it => {
+            return it.id == id
+        });
     }
 
     updateScenario(scenario) {
         this.scenarioResource.update(scenario).subscribe(result => {
             this.loadData();
             this.alertService.success(result.message);
+        });
+    }
+
+    getRunnerStatus() {
+        this.http.get(GlobalConfig.BASE_RUNNER_URL + "scenario/status").subscribe(result => {
+            this.runningScripts = result.json();
+            this.scenarios.forEach(it => {
+                it.runningThreads = _.filter(this.runningScripts, (runningScript) => {
+                    return runningScript.scenarioId == it.id;
+                });
+            })
         });
     }
 
@@ -137,17 +155,34 @@ export class ScenarioComponent implements OnInit {
     }
 
     generateScenarioFile(scenario: ScenarioModel) {
-        this.scenarioResource.get(scenario.id,"/generate").subscribe(ignore => {
+        this.scenarioResource.get(scenario.id, "/generate").subscribe(ignore => {
             this.loadData()
         })
     }
 
     uploadScenarioFile(scenario: ScenarioModel) {
-        this.http.post("http://localhost:5000/scenario/upload", scenario).subscribe();
+        this.http.post(GlobalConfig.BASE_RUNNER_URL + "scenario/upload", scenario).subscribe();
+    }
+
+    runScenarioFile(scenario: ScenarioModel) {
+        this.http.post(GlobalConfig.BASE_RUNNER_URL + "scenario/run", scenario)
+            .map(response => {
+                return response.json()
+            })
+            .subscribe(result => {
+                if (result.status == "false") {
+                    scenario.runningThreads = result.thread_id
+                } else {
+                    scenario._errorMessage = result.message
+                }
+                this.getRunnerStatus();
+            });
     }
 
     private createScenarioScript(scenario, script) {
-        let obj =  _.filter(this.scenarioScripts, it => {return it.scenario == scenario.id});
+        let obj = _.filter(this.scenarioScripts, it => {
+            return it.scenario == scenario.id
+        });
         let maxIndex = _.isEmpty(obj) ? 0 : _.maxBy(obj, 'index').index;
         let scenarioScript = new ScenarioScriptModel(scenario, script);
         scenarioScript.index = Number(maxIndex) ? Number(maxIndex) : 0;

@@ -3,9 +3,10 @@ import {AbstractModel} from "./abstract.model";
 
 export class ScenarioModel extends AbstractModel {
     name: string;
-    scenarioScripts: Array<number>;
     sequence: string;
     fileName: string;
+    runningThreads: Array<any>;
+    _errorMessage: string;
 
     constructor() {
         super();

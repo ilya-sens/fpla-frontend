@@ -27,15 +27,41 @@
                         <editable-element [(value)]="scenario.fileName" (valueChange)="updateScenario(scenario)"></editable-element>
                     </div>
                     <pre class="col-sm-12">{{scenario.sequence}}</pre>
-                </div>
-                <div class="row">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-primary" (click)="generateScenarioFile(scenario)">
-                            <i class="fa fa-refresh"></i> generate scenario file
-                        </button>
-                        <button class="btn btn-outline-primary" (click)="uploadScenarioFile(scenario)">
-                            <i class="fa fa-upload"></i> upload to runner
-                        </button>
+                    <div class="col-sm-12" *ngIf="scenario._errorMessage">
+                        <div class="alert alert-danger">
+                            {{scenario._errorMessage}}
+                        </div>
+                    </div>
+                    <div class="col-sm-12" *ngIf="scenario.runningThreads">
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Running threads
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let thread of scenario.runningThreads">
+                                    {{thread.runningThread}}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-outline-primary" (click)="generateScenarioFile(scenario)">
+                                <i class="fa fa-refresh"></i> generate scenario file
+                            </button>
+                            <button class="btn btn-outline-primary" (click)="uploadScenarioFile(scenario)">
+                                <i class="fa fa-upload"></i> upload to runner
+                            </button>
+                        </div>
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-outline-success" (click)="runScenarioFile(scenario)">
+                                <i class="fa fa-play"></i> run
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="row drop-placeholder-wrapper"

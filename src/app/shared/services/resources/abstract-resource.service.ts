@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AbstractResourceService {
-    protected url : string = GlobalConfig.BASE_API_URL + "/" + this.name;
+    protected url : string = GlobalConfig.BASE_BACKEND_URL + "/" + this.name;
 
     constructor(
         protected http : AuthHttp,

@@ -11,7 +11,7 @@ export class AuthenticationService {
     login(username: string, password: string) {
 
         return this.http.post(
-            GlobalConfig.BASE_API_URL + '/auth/signin', {'email': username, 'password': password})
+            GlobalConfig.BASE_BACKEND_URL + '/auth/signin', {'email': username, 'password': password})
             .map((response: Response) => {
                 let user = response.json().data;
                 if (user && user.token) {
