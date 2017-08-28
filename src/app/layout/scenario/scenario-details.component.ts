@@ -20,7 +20,7 @@ import {Observable} from "rxjs/Observable";
     styleUrls: ['./scenario-details.component.scss'],
     providers: [ScriptResourceService, ScenarioResourceService, ScenarioScriptResourceService]
 })
-export class ScenarioDetailsComponent implements OnInit {
+export class ScenarioDetailsComponent implements OnInit, OnDestroy {
     @Input() scenario: ScenarioModel;
     @Input() scripts: Array<ScriptModel>;
     @Input() scenarioScripts: Array<ScenarioScriptModel>;
@@ -28,6 +28,7 @@ export class ScenarioDetailsComponent implements OnInit {
     @Input() loadFromOutside: boolean = false;
     @Output() scenarioChange: EventEmitter<Boolean> = new EventEmitter();
 
+    timerSub: any;
     sub: any;
     id: number;
     runningScripts: Array<any>;
@@ -39,8 +40,15 @@ export class ScenarioDetailsComponent implements OnInit {
             if (!this.loadFromOutside) {
                 this.id = +params['id'];
                 this.loadData();
+                if (!this.timerSub)
+                    this.sub = Observable.timer(0, 3000).map(() => this.getRunnerStatus()).subscribe();
             }
         });
+    }
+
+    ngOnDestroy(): void {
+        if (!this.loadFromOutside)
+            this.sub.unsubscribe();
     }
 
     constructor(private alertService: AlertService,

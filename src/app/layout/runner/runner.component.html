@@ -1,0 +1,28 @@
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th>Scenario</th>
+        <th>Errors</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let thread of threads">
+        <tr>
+            <td>{{getScenarioById(thread.scenarioId).name}}</td>
+            <td><span *ngIf="thread.exceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
+            <td><button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
+                <i class="fa fa-search"></i></button>
+            </td>
+        </tr>
+        <tr *ngIf="watchingDetails(thread.runningThread)">
+            <td colspan="3" style="overflow: scroll">
+                <app-details-runner
+                    [scenario]="getScenarioById(thread.scenarioId)"
+                    [thread]="thread">
+                </app-details-runner>
+            </td>
+        </tr>
+    </ng-container>
+    </tbody>
+</table>

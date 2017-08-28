@@ -65,8 +65,9 @@
             <button class="btn btn-outline-primary" *ngIf="!full" [routerLink]="['/scenario/', scenario.id]">
                 <i class="fa fa-id-card"></i>
             </button>
-            <button class="btn btn-outline-danger" (click)="deleteScenario(scenario)"><i
-                class="fa fa-trash"></i></button>
+            <button class="btn btn-outline-danger" (click)="deleteScenario(scenario)">
+                <i class="fa fa-trash"></i>
+            </button>
         </div>
     </div>
     <div class="card-block">
