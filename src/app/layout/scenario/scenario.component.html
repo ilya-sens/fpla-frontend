@@ -1,103 +1,12 @@
 <div *ngFor="let scenario of scenarios; let scenarioIndex = index" class="row">
     <div class="col-sm-12 col-xl-8">
-        <div class="card card-default mb-3">
-            <div class="card-header">
-                <div class="card-header-name">
-                    <editable-element [(value)]="scenario.name"
-                                      (valueChange)="updateScenario(scenario)"></editable-element>
-                </div>
-                <div class="card-header-dates">
-                    <div class="card-header-date">
-                        created: {{scenario.createdAt | date: dateFormat }}
-                    </div>
-                    <div class="card-header-date">
-                        updated: {{scenario.updatedAt | date: dateFormat }}
-                    </div>
-                </div>
-                <div class="card-header-buttons btn-group">
-                    <button class="btn btn-outline-danger" (click)="deleteScenario(scenario)"><i class="fa fa-trash"></i></button>
-                </div>
-            </div>
-            <div class="card-block">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <b>file name:</b>
-                    </div>
-                    <div class="col-sm-6">
-                        <editable-element [(value)]="scenario.fileName" (valueChange)="updateScenario(scenario)"></editable-element>
-                    </div>
-                    <pre class="col-sm-12">{{scenario.sequence}}</pre>
-                    <div class="col-sm-12" *ngIf="scenario._errorMessage">
-                        <div class="alert alert-danger">
-                            {{scenario._errorMessage}}
-                        </div>
-                    </div>
-                    <div class="col-sm-12" *ngIf="scenario.runningThreads">
-                        <table class="table table-sm">
-                            <thead>
-                            <tr>
-                                <th>
-                                    Running threads
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let thread of scenario.runningThreads">
-                                    {{thread.runningThread}}
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="btn-group pull-right">
-                            <button class="btn btn-outline-primary" (click)="generateScenarioFile(scenario)">
-                                <i class="fa fa-refresh"></i> generate scenario file
-                            </button>
-                            <button class="btn btn-outline-primary" (click)="uploadScenarioFile(scenario)">
-                                <i class="fa fa-upload"></i> upload to runner
-                            </button>
-                        </div>
-                        <div class="btn-group pull-right">
-                            <button class="btn btn-outline-success" (click)="runScenarioFile(scenario)">
-                                <i class="fa fa-play"></i> run
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row drop-placeholder-wrapper"
-                     *ngFor="let scenarioScript of getScenarioScriptsOfScenario(scenario.id) | orderBy: 'index'; let scenarioScriptIndex = index">
-                    <div class="col-sm-12 drop-placeholder"
-                         *ngIf="scenarioScriptIndex === 0" droppable
-                         (onDrop)="changeIndex($event, scenarioScript.index)"></div>
-                    <div class="col-sm-12" draggable [dragData]="scenarioScript" #script>
-                        <script-component
-                            [script]="getScriptById(scenarioScript.script)" [removable]="true" [deletable]="true"
-                            (scriptDelete)="deleteScript(getScriptById(scenarioScript.script))"
-                            (scriptRemove)="deleteScenarioScript(scenarioScript)">
-                        </script-component>
-                    </div>
-                    <div class="col-sm-12 drop-placeholder"
-                         droppable (onDrop)="changeIndex($event, scenarioScript.index + 1)"></div>
-                </div>
-                <div class="pull-right">
-                    Script:
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-outline-success" (click)="createScript(scenarioIndex)">New</button>
-                        <div class="btn-group" role="group" ngbDropdown>
-                            <button class="btn btn-outline-primary" ngbDropdownToggle>
-                                Select existing <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <button class="dropdown-item" *ngFor="let script of scripts; let scriptIndex = index"
-                                        (click)="addScript(scenarioIndex, scriptIndex)">
-                                    {{script.name}}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-scenario-details [full]="false"
+                              [loadFromOutside]="true"
+                              [scenario]="scenario"
+                              [scenarioScripts]="scenarioScripts"
+                              [scripts]="scripts"
+                              (scenarioChange)="loadData()" >
+        </app-scenario-details>
     </div>
 </div>
 <div class="pull-right">

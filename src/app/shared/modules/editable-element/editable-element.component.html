@@ -1,17 +1,22 @@
-<span class="editable pre" [ngClass]="{'color-gray-light': !value}"  [hidden]="edit" (click)="edit = true">{{(value) ? value : defaultValue}}</span>
-<!-- typeEnum.input -->
-<div class="input-group" [hidden]="!edit" *ngIf="type == typeEnum.input">
-    <input class="form-control editable-textfield" #input (keyup.enter)="saveChanges(input.value)" value="{{value}}">
-    <span class="input-group-btn">
-        <button class="btn btn-outline-primary" type="button" (click)="saveChanges(input.value)">Ok</button>
-    </span>
-</div>
-<!-- typeEnum.textArea -->
-<div class="row" *ngIf="type == typeEnum.textArea" [hidden]="!edit">
-    <div class="col-sm-10">
-        <textarea class="editable-textarea" (change)="value = $event.target.value">{{value}}</textarea>
-    </div>
-    <div class="col-sm-2">
-        <button class="btn btn-outline-primary" type="button" (click)="saveChanges(value)">Ok</button>
+<div class="editable-wrapper" [ngSwitch]="type">
+    <span class="{{editable ? 'editable' : ''}} pre" [ngClass]="{'color-gray-light': !value}" [hidden]="edit" (click)="edit = true">{{(value) ? value : defaultValue}}</span>
+    <div *ngIf="editable">
+        <!-- typeEnum.input -->
+        <div class="input-group" [hidden]="!edit" *ngSwitchCase="typeEnum.input">
+            <input class="form-control editable-textfield" #input (keyup.enter)="saveChanges(input.value)"
+                   value="{{value}}">
+            <span class="input-group-btn">
+                <button class="btn btn-outline-primary" type="button" (click)="saveChanges(input.value)">Ok</button>
+            </span>
+        </div>
+        <!-- typeEnum.textArea -->
+        <div class="row" *ngSwitchCase="typeEnum.textArea" [hidden]="!edit">
+            <div class="col-sm-10">
+                <textarea class="editable-textarea" (change)="value = $event.target.value">{{value}}</textarea>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-outline-primary" type="button" (click)="saveChanges(value)">Ok</button>
+            </div>
+        </div>
     </div>
 </div>

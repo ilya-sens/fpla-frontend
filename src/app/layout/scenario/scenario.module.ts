@@ -9,6 +9,7 @@ import {EditableElementModule} from "../../shared/modules/editable-element/edita
 import {Ng2DragDropModule} from "ng2-drag-drop";
 import {ScriptComponent} from "./script.component";
 import {NgbDropdown, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {ScenarioDetailsComponent} from "./scenario-details.component";
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import {NgbDropdown, NgbModule} from "@ng-bootstrap/ng-bootstrap";
     ],
     declarations: [
         ScenarioComponent,
+        ScenarioDetailsComponent,
         ScriptComponent,
     ],
     providers: [

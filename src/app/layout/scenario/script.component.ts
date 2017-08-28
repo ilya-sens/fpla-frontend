@@ -7,7 +7,7 @@ import {ScriptModel} from "../../shared/model/script.model";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-    selector: 'script-component',
+    selector: 'app-script-component',
     templateUrl: './script.component.html',
     providers: [ScriptResourceService, NgbModule]
 })
