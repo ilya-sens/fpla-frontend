@@ -10,6 +10,7 @@ import {Ng2DragDropModule} from "ng2-drag-drop";
 import {ScriptComponent} from "./script.component";
 import {NgbDropdown, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ScenarioDetailsComponent} from "./scenario-details.component";
+import {RunnerModule} from "../runner/runner.module";
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import {ScenarioDetailsComponent} from "./scenario-details.component";
         Ng2OrderModule,
         Ng2DragDropModule,
         EditableElementModule,
+        RunnerModule,
         NgbModule,
     ],
     declarations: [

@@ -13,6 +13,7 @@ import {ScenarioScriptModel} from "../../shared/model/scenario-script.model";
 import {ScriptModel} from "../../shared/model/script.model";
 import {DropEvent} from "ng2-drag-drop";
 import {Observable} from "rxjs/Observable";
+import {RunnerListTypesEnum} from "../runner/runner.component";
 
 @Component({
     selector: 'app-scenario-details',
@@ -33,22 +34,20 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
     id: number;
     runningScripts: Array<any>;
 
+    runnerListTypes = RunnerListTypesEnum;
     dateFormat: String = GlobalConfig.DATE_FORMAT;
 
     ngOnInit(): void {
-        this.route.params.subscribe(params => {
+        this.sub = this.route.params.subscribe(params => {
             if (!this.loadFromOutside) {
                 this.id = +params['id'];
                 this.loadData();
-                if (!this.timerSub)
-                    this.sub = Observable.timer(0, 3000).map(() => this.getRunnerStatus()).subscribe();
             }
         });
     }
 
     ngOnDestroy(): void {
-        if (!this.loadFromOutside)
-            this.sub.unsubscribe();
+        this.sub.unsubscribe();
     }
 
     constructor(private alertService: AlertService,
@@ -96,7 +95,6 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
                 } else {
                     scenario._errorMessage = result.message
                 }
-                this.getRunnerStatus();
             });
     }
 
@@ -200,15 +198,6 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
         }
         scenarioScripts.forEach(it => {
             this.scenarioScriptResource.update(it).subscribe();
-        });
-    }
-
-    getRunnerStatus() {
-        this.http.get(GlobalConfig.BASE_RUNNER_URL + "scenario/status").subscribe(result => {
-            this.runningScripts = result.json();
-            this.scenario.runningThreads = _.filter(this.runningScripts, (runningScript) => {
-                return runningScript.scenarioId == this.scenario.id;
-            });
         });
     }
 

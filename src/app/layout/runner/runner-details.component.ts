@@ -10,6 +10,7 @@ import * as _ from "lodash";
 @Component({
     selector: 'app-details-runner',
     templateUrl: './runner-details.component.html',
+    styleUrls: ['./runner.component.scss'],
 })
 export class RunnerDetailsComponent implements OnInit, OnChanges, DoCheck {
     @Input() scenario: ScenarioModel;

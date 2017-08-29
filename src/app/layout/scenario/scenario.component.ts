@@ -2,17 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Rx";
 import {GlobalConfig} from "../../global";
 import {TypeEnum} from "../../shared/modules/editable-element/editable-element.component";
-import {AlertService} from "../../shared/services/alert.service";
-import {DropEvent} from "ng2-drag-drop";
 import {ScriptResourceService} from "../../shared/services/resources/script-resource.service";
 import {ScenarioResourceService} from "../../shared/services/resources/scenario-resource.service";
 import {ScenarioScriptResourceService} from "../../shared/services/resources/scenario-script-resource.service";
 import {ScenarioModel} from "../../shared/model/scenario.model";
 import {ScriptModel} from "../../shared/model/script.model";
 import {ScenarioScriptModel} from "../../shared/model/scenario-script.model";
-
-import * as _ from 'lodash';
-import {AuthHttp} from "angular2-jwt";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -32,13 +27,10 @@ export class ScenarioComponent implements OnInit {
     dateFormat: String = GlobalConfig.DATE_FORMAT;
     typeEnum = TypeEnum;
 
-    constructor(private alertService: AlertService,
-                private scriptResource: ScriptResourceService,
+    constructor(private scriptResource: ScriptResourceService,
                 private scenarioResource: ScenarioResourceService,
-                private http: AuthHttp,
                 private scenarioScriptResource: ScenarioScriptResourceService,
-                private route: ActivatedRoute,
-                ) {
+                private route: ActivatedRoute,) {
     }
 
     ngOnInit(): void {

@@ -7,12 +7,13 @@
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let thread of threads">
+    <ng-container *ngFor="let thread of getThreads()">
         <tr>
             <td>{{getScenarioById(thread.scenarioId).name}}</td>
             <td><span *ngIf="thread.exceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
-            <td><button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
-                <i class="fa fa-search"></i></button>
+            <td>
+                <button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
+                    <i class="fa fa-search"></i></button>
             </td>
         </tr>
         <tr *ngIf="watchingDetails(thread.runningThread)">

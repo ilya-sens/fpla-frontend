@@ -23,6 +23,9 @@ import {FormsModule} from "@angular/forms";
     providers: [
         RunnerResourceService,
         ScenarioResourceService
+    ],
+    exports: [
+        RunnerComponent
     ]
 })
 export class RunnerModule {

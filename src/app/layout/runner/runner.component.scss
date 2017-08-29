@@ -1,3 +1,7 @@
 .active-line-background {
     background-color: #5bc0de;
 }
+
+::ng-deep .CodeMirror {
+    height: auto;
+}

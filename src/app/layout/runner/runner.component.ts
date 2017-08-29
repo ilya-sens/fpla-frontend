@@ -4,9 +4,12 @@ import {Observable} from "rxjs/Rx";
 import {RunnerResourceService} from "../../shared/services/resources/runner-resource.service";
 import {ScenarioResourceService} from "../../shared/services/resources/scenario-resource.service";
 
-import * as _ from "lodash";
 import {ThreadModel} from "../../shared/model/thread.model";
-import {forEach} from "@angular/router/src/utils/collection";
+
+export enum RunnerListTypesEnum {
+    onlyScenario,
+    defaultType
+}
 
 @Component({
     selector: 'app-runner',
@@ -14,13 +17,15 @@ import {forEach} from "@angular/router/src/utils/collection";
     styleUrls: ['./runner.component.scss'],
 })
 export class RunnerComponent implements OnInit, OnDestroy {
-    // @Input() scenario: ScenarioModel;
+    @Input() scenario: ScenarioModel;
+    @Input() runnerListType: RunnerListTypesEnum = RunnerListTypesEnum.defaultType;
     scenarios: Array<ScenarioModel>;
     threads: Array<ThreadModel> = [];
 
     openedDetails: Array<string> = [];
-
     sub: any;
+
+    runnerListTypesEnum = RunnerListTypesEnum;
 
     constructor(private runnerResource: RunnerResourceService,
                 private scenarioResource: ScenarioResourceService,
@@ -28,8 +33,11 @@ export class RunnerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.sub = Observable.timer(0, 3000).map(() => this.getRunnerStatus()).subscribe();
+        if (this.runnerListType == RunnerListTypesEnum.defaultType) {
+            this.scenarioResource.get().subscribe(result => this.scenarios = result.data);
+        }
         this.scenarioResource.get().subscribe(result => this.scenarios = result.data);
+        this.sub = Observable.timer(0, 3000).map(() => this.getRunnerStatus()).subscribe();
     }
 
     ngOnDestroy(): void {
@@ -39,17 +47,14 @@ export class RunnerComponent implements OnInit, OnDestroy {
     getRunnerStatus() {
         this.runnerResource.getStatus().subscribe(result => {
             result.forEach(resultThread => {
-                // let found = _.some(this.threads, _.matches(resultThread));
                 let found = this.threads.find(it => {
                     return it.runningThread == resultThread.runningThread
                 });
                 if (found) {
-                    console.log("found runningThread");
                     if (found.line != resultThread.line) found.line = resultThread.line;
                     if (found.exceptions != resultThread.exceptions) found.exceptions = resultThread.exceptions;
                 } else {
                     this.threads.push(resultThread);
-                    console.log("not found");
                 }
             });
 
@@ -58,7 +63,6 @@ export class RunnerComponent implements OnInit, OnDestroy {
                     return it.runningThread == existingThread.runningThread
                 });
                 if (!foundResultThread) {
-                    console.log("delete");
                     delete this.threads[index];
                 }
             })
@@ -67,6 +71,17 @@ export class RunnerComponent implements OnInit, OnDestroy {
 
     getScenarioById(scenarioId: number) {
         return this.scenarios.find(it => {return it.id == scenarioId});
+    }
+
+    getThreads() {
+        switch (this.runnerListType) {
+            case RunnerListTypesEnum.onlyScenario:
+                return this.threads.filter(thread => {
+                    return thread.scenarioId == this.scenario.id
+                });
+            case RunnerListTypesEnum.defaultType:
+                return this.threads
+        }
     }
 
     openDetails(runningThread: string) {

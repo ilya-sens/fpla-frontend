@@ -12,24 +12,7 @@
             {{scenario._errorMessage}}
         </div>
     </div>
-    <div class="col-sm-12" *ngIf="scenario.runningThreads">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th>
-                    Running threads
-                </th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let thread of scenario.runningThreads">
-                <td>{{thread.runningThread}}</td>
-                <td><span *ngIf="thread.exceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <app-runner [runnerListType]="runnerListTypes.onlyScenario" [scenario]="scenario"></app-runner>
     <div class="col-sm-12">
         <div class="btn-group pull-right">
             <button class="btn btn-outline-primary" (click)="generateScenarioFile(scenario)">
