@@ -23,4 +23,9 @@ export class RunnerResourceService {
         let url: string = GlobalConfig.BASE_RUNNER_URL + "scenario/status" + (urlSuffix) ? urlSuffix : "";
         return this.http.post(url, scenarioModel).map(response => {return response.json()});
     }
+
+    public stop(id: string) {
+        return this.http.get(GlobalConfig.BASE_RUNNER_URL + "scenario/stop/" + id)
+            .map(response => {return response.json()});
+    }
 }

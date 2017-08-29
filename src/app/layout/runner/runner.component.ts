@@ -69,6 +69,12 @@ export class RunnerComponent implements OnInit, OnDestroy {
         })
     }
 
+    stopThread(thread: ThreadModel) {
+        this.runnerResource.stop(thread.runningThread).subscribe(ignore => {
+            this.getRunnerStatus();
+        });
+    }
+
     getScenarioById(scenarioId: number) {
         return this.scenarios.find(it => {return it.id == scenarioId});
     }

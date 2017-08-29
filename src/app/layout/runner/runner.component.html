@@ -12,8 +12,12 @@
             <td>{{getScenarioById(thread.scenarioId).name}}</td>
             <td><span *ngIf="thread.exceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
             <td>
-                <button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
-                    <i class="fa fa-search"></i></button>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
+                        <i class="fa fa-search"></i></button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="stopThread(thread)">
+                        <i class="fa fa-trash"></i></button>
+                </div>
             </td>
         </tr>
         <tr *ngIf="watchingDetails(thread.runningThread)">

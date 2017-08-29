@@ -12,7 +12,6 @@
             {{scenario._errorMessage}}
         </div>
     </div>
-    <app-runner [runnerListType]="runnerListTypes.onlyScenario" [scenario]="scenario"></app-runner>
     <div class="col-sm-12">
         <div class="btn-group pull-right">
             <button class="btn btn-outline-primary" (click)="generateScenarioFile(scenario)">
@@ -27,6 +26,9 @@
                 <i class="fa fa-play"></i> run
             </button>
         </div>
+    </div>
+    <div class="col-sm-12">
+        <app-runner [runnerListType]="runnerListTypes.onlyScenario" [scenario]="scenario"></app-runner>
     </div>
 </div>
 

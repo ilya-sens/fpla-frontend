@@ -29,23 +29,23 @@ export class RunnerDetailsComponent implements OnInit, OnChanges, DoCheck {
     }
 
     ngOnInit(): void {
-        console.log("on init called");
         this.onRefresh();
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        console.log("on changes called");
         if (!_.isEqual(changes.thread.currentValue, this.thread)) {
             this.onRefresh();
         }
     }
 
     onRefresh() {
-        if (this.highlightedLineNumber) {
-            this.cm.doc.removeLineClass(this.highlightedLineNumber, "background", "active-line-background");
+        if (this.cm) {
+            if (this.highlightedLineNumber) {
+                this.cm.doc.removeLineClass(this.highlightedLineNumber, "background", "active-line-background");
+            }
+            this.highlightedLineNumber = +this.thread.line.split(' ')[1] - 1;
+            this.cm.doc.addLineClass(this.highlightedLineNumber, "background", "active-line-background");
         }
-        this.highlightedLineNumber = +this.thread.line.split(' ')[1] - 1;
-        this.cm.doc.addLineClass(this.highlightedLineNumber, "background", "active-line-background");
     }
 
     constructor() {
