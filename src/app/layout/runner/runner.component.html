@@ -1,4 +1,4 @@
-<table class="table table-sm">
+<table *ngIf="threads" class="table table-sm">
     <thead>
     <tr>
         <th>Scenario</th>
@@ -16,7 +16,7 @@
             </td>
         </tr>
         <tr *ngIf="watchingDetails(thread.runningThread)">
-            <td colspan="3" style="overflow: scroll">
+            <td colspan="3">
                 <app-details-runner
                     [scenario]="getScenarioById(thread.scenarioId)"
                     [thread]="thread">

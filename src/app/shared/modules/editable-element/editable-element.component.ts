@@ -1,8 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
+import 'codemirror'
+import 'codemirror/mode/python/python'
+
 export enum TypeEnum {
     input,
-    textArea
+    textArea,
+    codeMirror
 }
 
 

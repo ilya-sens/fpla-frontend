@@ -1,5 +1,10 @@
 <div >
-    <pre class="col-sm-12">{{scenario.sequence}}</pre>
+    <button class="btn btn-outline-primary" (click)="onRefresh()"><i class="fa fa-refresh"></i></button>
+    <codemirror [config]="{
+                mode: 'python',
+                lineNumbers: true,
+                readOnly: 'nocursor'
+             }" [(ngModel)]="scenario.sequence"></codemirror>
     <div class="alert alert-danger" *ngFor="let exception of thread.exceptions">
         {{exception}}
     </div>

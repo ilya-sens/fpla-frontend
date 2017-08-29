@@ -6,6 +6,7 @@ import {ScenarioResourceService} from "../../shared/services/resources/scenario-
 
 import * as _ from "lodash";
 import {ThreadModel} from "../../shared/model/thread.model";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     selector: 'app-runner',
@@ -15,7 +16,7 @@ import {ThreadModel} from "../../shared/model/thread.model";
 export class RunnerComponent implements OnInit, OnDestroy {
     // @Input() scenario: ScenarioModel;
     scenarios: Array<ScenarioModel>;
-    threads: Array<any> = [];
+    threads: Array<ThreadModel> = [];
 
     openedDetails: Array<string> = [];
 
@@ -37,24 +38,28 @@ export class RunnerComponent implements OnInit, OnDestroy {
 
     getRunnerStatus() {
         this.runnerResource.getStatus().subscribe(result => {
-            result.forEach(currentResult => {
-                if (currentResult in (this.threads as Array<any>)) {
-                    return;
+            result.forEach(resultThread => {
+                // let found = _.some(this.threads, _.matches(resultThread));
+                let found = this.threads.find(it => {
+                    return it.runningThread == resultThread.runningThread
+                });
+                if (found) {
+                    console.log("found runningThread");
+                    if (found.line != resultThread.line) found.line = resultThread.line;
+                    if (found.exceptions != resultThread.exceptions) found.exceptions = resultThread.exceptions;
                 } else {
-                    let threadFound = _.find(this.threads, {'runningThread': currentResult.runningThread});
-                    if (threadFound) {
-                        threadFound = currentResult;
-                    } else {
-                        this.threads.push(currentResult)
-                    }
+                    this.threads.push(resultThread);
+                    console.log("not found");
                 }
             });
 
-            this.threads.forEach((currentThread, index) => {
-                if ((currentThread as any) !in result) {
+            this.threads.forEach((existingThread, index) => {
+                let foundResultThread = result.find(it => {
+                    return it.runningThread == existingThread.runningThread
+                });
+                if (!foundResultThread) {
+                    console.log("delete");
                     delete this.threads[index];
-                    if (this.watchingDetails(currentThread.runningThread))
-                        _.remove(this.openedDetails, currentThread.runningThread)
                 }
             })
         })
