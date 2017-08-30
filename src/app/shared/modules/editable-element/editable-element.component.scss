@@ -1,15 +1,19 @@
 .editable {
     cursor: pointer;
     text-decoration: underline dotted;
+    &:after {
+        content: '\f040';
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        margin:0px 0px 0px 10px;
+        text-decoration:none;
+        visibility: hidden;
+    }
     &:hover {
         text-decoration:none;
         &:after {
-            content: '\f040';
-            font-family: FontAwesome;
-            font-weight: normal;
-            font-style: normal;
-            margin:0px 0px 0px 10px;
-            text-decoration:none;
+            visibility: visible;
         }
     }
 }

@@ -19,23 +19,23 @@ export class GenTablesCrudResourceService {
         return this.http.get(url).map(response => {return response.json()});
     }
 
-    public create(tableId: number, tableDefinition: TableDefinitionModel, urlSuffix?: string): Observable<any> {
+    public create(tableId: number, row: any, urlSuffix?: string): Observable<any> {
         let url: string = GlobalConfig.BASE_GENDB_URL + "crud/" + tableId;
         url += urlSuffix ? urlSuffix : "";
 
-        return this.http.post(url, tableDefinition).map(response => {return response.json()});
+        return this.http.post(url, row).map(response => {return response.json()});
     }
 
-    public update(tableId: number, tableDefinition: TableDefinitionModel, urlSuffix?: string): Observable<any> {
-        let url: string = GlobalConfig.BASE_GENDB_URL + "crud/" + tableId;
+    public update(tableId: number, row: any, urlSuffix?: string): Observable<any> {
+        let url: string = GlobalConfig.BASE_GENDB_URL + "crud/" + tableId + "/" + row.ID;
         url += urlSuffix ? urlSuffix : "";
-        return this.http.put(url, tableDefinition).map(response => {return response.json()});
+        return this.http.put(url, row).map(response => {return response.json()});
     }
 
     public remove(tableId: number, id: number, urlSuffix?: string): Observable<any> {
         let url: string = GlobalConfig.BASE_GENDB_URL + "crud/" + tableId + "/" + id;
         url += urlSuffix ? urlSuffix : "";
 
-        return this.http.delete(url).map(response => {return response.json()});
+        return this.http.delete(url).map(response => {return response});
     }
 }

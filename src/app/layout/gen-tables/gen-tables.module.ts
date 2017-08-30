@@ -7,6 +7,7 @@ import {CodemirrorModule} from "ng2-codemirror";
 import {FormsModule} from "@angular/forms";
 import {EditableElementModule} from "../../shared/modules/editable-element/editable-element.module";
 import {GenTablesCrudComponent} from "./gen-tables-crud.component";
+import {Ng2OrderModule} from "ng2-order-pipe";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {GenTablesCrudComponent} from "./gen-tables-crud.component";
         GenTablesRoutingModule,
         CodemirrorModule,
         FormsModule,
-        EditableElementModule
+        EditableElementModule,
+        Ng2OrderModule,
     ],
     declarations: [
         GenTablesComponent,

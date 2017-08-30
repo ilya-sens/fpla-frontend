@@ -11,6 +11,7 @@ export class GenTablesCrudComponent implements OnInit {
     @Input() tableDefinition: TableDefinitionModel;
 
     rows: Array<any>;
+    rowsToCreate: Array<any> = [];
 
     constructor(
         private crudResource: GenTablesCrudResourceService
@@ -28,7 +29,54 @@ export class GenTablesCrudComponent implements OnInit {
         });
     }
 
-    generateArray(obj){
-        return Object.keys(obj).map((key)=>{ return obj[key]});
+    deleteRow(row) {
+        this.crudResource.remove(this.tableDefinition.id, row.ID).subscribe(ignore => {
+            this.loadData();
+        })
+    }
+
+    addRow() {
+        this.rowsToCreate.push(this.generateRow())
+    }
+
+    private generateRow(): any {
+        let rowToGenerate: object = {};
+        this.tableDefinition.columnDefinitions.forEach(it => {
+            rowToGenerate[it.name] = null;
+        });
+        return rowToGenerate;
+    }
+
+    updateValue(row: any, columnName: string) {
+        let fakeRow: object = {};
+        fakeRow["ID"] = row.ID;
+        fakeRow[columnName] = row[columnName];
+        this.crudResource.update(this.tableDefinition.id, fakeRow).subscribe(result => {
+            this.rows = result;
+        });
+    }
+
+    createRow(rowToCreate: any) {
+        this.crudResource.create(this.tableDefinition.id, rowToCreate).subscribe(result => {
+            this.rows = result;
+            this.deleteRowToCreate(rowToCreate);
+        })
+    }
+
+    deleteRowToCreate(rowToCreate: any) {
+        let index: number = this.rowsToCreate.indexOf(rowToCreate);
+        if (index > -1) {
+            this.rowsToCreate.splice(index, 1);
+        }
+    }
+
+    deleteAllRowsToCreate() {
+        this.rowsToCreate = [];
+    }
+
+    createAllRowsToCreate() {
+        this.rowsToCreate.forEach(rowToCreate => {
+            this.createRow(rowToCreate);
+        });
     }
 }
