@@ -20,7 +20,7 @@ export class RunnerResourceService {
     }
 
     public run(scenarioModel: ScenarioModel, urlSuffix?: string): Observable<any> {
-        let url: string = GlobalConfig.BASE_RUNNER_URL + "scenario/status" + (urlSuffix) ? urlSuffix : "";
+        let url: string = GlobalConfig.BASE_RUNNER_URL + "scenario/run" + (urlSuffix) ? urlSuffix : "";
         return this.http.post(url, scenarioModel).map(response => {return response.json()});
     }
 

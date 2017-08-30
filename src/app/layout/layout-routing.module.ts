@@ -9,6 +9,7 @@ const routes: Routes = [
             {path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
             {path: 'scenario', loadChildren: './scenario/scenario.module#ScenarioModule'},
             {path: 'runner', loadChildren: './runner/runner.module#RunnerModule'},
+            {path: 'gen-tables', loadChildren: './gen-tables/gen-tables.module#GenTablesModule'},
             // ToDo delete it
             {path: 'charts', loadChildren: './charts/charts.module#ChartsModule'},
             {path: 'tables', loadChildren: './tables/tables.module#TablesModule'},

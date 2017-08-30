@@ -1,0 +1,16 @@
+<ng-container *ngIf="tableDefinitions">
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th>Table Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let tableDefinition of tableDefinitions">
+            <td>{{tableDefinition.tableName}}</td>
+            <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-search"></i></button></td>
+        </tr>
+        </tbody>
+    </table>
+</ng-container>
