@@ -21,6 +21,9 @@
                         <button class="btn btn-sm btn-outline-primary" (click)="openDetails(tableDefinition)">
                             <i class="fa fa-search"></i>
                         </button>
+                        <button class="btn btn-sm btn-outline-primary" (click)="openCrud(tableDefinition)">
+                            <i class="fa fa-table"></i>
+                        </button>
                         <button class="btn btn-sm btn-outline-danger" (click)="deleteTableDefinition(tableDefinition)">
                             <i class="fa fa-trash"></i>
                         </button>
@@ -31,6 +34,12 @@
                 <td colspan="2">
                     <app-gen-tables-details [tableDefinition]="tableDefinition">
                     </app-gen-tables-details>
+                </td>
+            </tr>
+            <tr *ngIf="watchingCrud(tableDefinition)">
+                <td colspan="2">
+                    <app-gen-tables-crud [tableDefinition]="tableDefinition">
+                    </app-gen-tables-crud>
                 </td>
             </tr>
         </ng-container>

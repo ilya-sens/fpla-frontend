@@ -6,6 +6,7 @@ import {GenTablesRoutingModule} from "./gen-tables-routing.module";
 import {CodemirrorModule} from "ng2-codemirror";
 import {FormsModule} from "@angular/forms";
 import {EditableElementModule} from "../../shared/modules/editable-element/editable-element.module";
+import {GenTablesCrudComponent} from "./gen-tables-crud.component";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {EditableElementModule} from "../../shared/modules/editable-element/edita
     ],
     declarations: [
         GenTablesComponent,
-        GenTablesDetailsComponent
+        GenTablesDetailsComponent,
+        GenTablesCrudComponent
     ],
     providers: [
     ],

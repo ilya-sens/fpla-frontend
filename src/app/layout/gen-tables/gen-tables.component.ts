@@ -12,6 +12,7 @@ import {TypeEnum} from "../../shared/modules/editable-element/editable-element.c
 export class GenTablesComponent implements OnInit {
     tableDefinitions: Array<TableDefinitionModel>;
     tableDefinitionsToCreate: Array<TableDefinitionModel> = [];
+    openedCruds: Array<TableDefinitionModel> = [];
 
     editableType = TypeEnum;
 
@@ -82,5 +83,13 @@ export class GenTablesComponent implements OnInit {
         if (index > -1) {
             this.tableDefinitionsToCreate.splice(index, 1);
         }
+    }
+
+    openCrud(tableDefinition: TableDefinitionModel) {
+        this.openedCruds.push(tableDefinition);
+    }
+
+    watchingCrud(tableDefinition: TableDefinitionModel) {
+        return this.openedCruds.indexOf(tableDefinition) > -1;
     }
 }

@@ -1,0 +1,26 @@
+<table class="table table-sm">
+    <thead class="thead-default">
+    <tr>
+        <th *ngFor="let columnDefinition of tableDefinition.columnDefinitions">
+            <span>
+                {{columnDefinition.name}}
+            </span>
+            <span class="small">
+                {{columnDefinition.type}}
+            </span>
+        </th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of rows">
+        <!--<td *ngFor="let column of generateArray(row)">-->
+        <td *ngFor="let columnDefinition of tableDefinition.columnDefinitions">
+            {{row[columnDefinition.name]}}
+        </td>
+        <td>
+            <!-- acctions -->
+        </td>
+    </tr>
+    </tbody>
+</table>
