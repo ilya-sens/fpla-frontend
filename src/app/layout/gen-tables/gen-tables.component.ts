@@ -11,6 +11,8 @@ import {GenTablesResourceService} from "../../shared/services/resources/gen-tabl
 export class GenTablesComponent implements OnInit {
     tableDefinitions: Array<TableDefinitionModel>;
 
+    private openedTableDefinitionDetails: Array<number> = [];
+
     constructor(private genTablesResource: GenTablesResourceService,) {
     }
 
@@ -24,4 +26,11 @@ export class GenTablesComponent implements OnInit {
         });
     }
 
+    watchingDetails(tableDefinition: TableDefinitionModel): boolean {
+        return this.openedTableDefinitionDetails.includes(tableDefinition.id);
+    }
+
+    openDetails(tableDefinition: TableDefinitionModel) {
+        this.openedTableDefinitionDetails.push(tableDefinition.id);
+    }
 }

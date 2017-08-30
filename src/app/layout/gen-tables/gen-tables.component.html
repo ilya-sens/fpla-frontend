@@ -1,5 +1,5 @@
 <ng-container *ngIf="tableDefinitions">
-    <table class="table table-sm table-hover">
+    <table class="table table-sm">
         <thead>
         <tr>
             <th>Table Name</th>
@@ -7,10 +7,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let tableDefinition of tableDefinitions">
-            <td>{{tableDefinition.tableName}}</td>
-            <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-search"></i></button></td>
-        </tr>
+        <ng-container *ngFor="let tableDefinition of tableDefinitions">
+            <tr>
+                <td>{{tableDefinition.tableName}}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="openDetails(tableDefinition)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="watchingDetails(tableDefinition)">
+                <td colspan="2">
+                    <app-gen-tables-details [tableDefinition]="tableDefinition">
+                    </app-gen-tables-details>
+                </td>
+            </tr>
+        </ng-container>
         </tbody>
     </table>
 </ng-container>

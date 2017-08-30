@@ -1,0 +1,21 @@
+<h3>Columns</h3>
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let columnDefinition of tableDefinition.columnDefinitions">
+        <td>{{columnDefinition.name}}</td>
+        <td>{{columnDefinition.type}}</td>
+        <td>
+            <button class="btn btn-sm btn-outline-danger">
+                <i class="fa fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

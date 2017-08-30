@@ -1,4 +1,5 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
+import {TableDefinitionModel} from "../../shared/model/table-definition.model";
 
 @Component({
     selector: 'app-gen-tables-details',
@@ -6,6 +7,8 @@ import {Component, OnInit} from "@angular/core";
     styleUrls: ['./gen-tables.component.scss'],
 })
 export class GenTablesDetailsComponent implements OnInit {
+    @Input() tableDefinition: TableDefinitionModel;
+
     constructor() {
 
     }
