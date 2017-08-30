@@ -20,12 +20,17 @@ export class GenTablesResourceService {
     }
 
     public create(tableDefinition: TableDefinitionModel, urlSuffix?: string): Observable<any> {
-        let url: string = GlobalConfig.BASE_GENDB_URL + "table" + (urlSuffix) ? urlSuffix : "";
+        let url: string = GlobalConfig.BASE_GENDB_URL + "table";
+        url += urlSuffix ? urlSuffix : "";
+
         return this.http.post(url, tableDefinition).map(response => {return response.json()});
     }
 
     public update(tableDefinition: TableDefinitionModel, urlSuffix?: string): Observable<any> {
-        let url: string = GlobalConfig.BASE_GENDB_URL + "table/" + tableDefinition.id + (urlSuffix) ? urlSuffix : "";
+        console.log(tableDefinition);
+        let url: string = GlobalConfig.BASE_GENDB_URL + "table";
+        url += urlSuffix ? urlSuffix : "";
+        console.log(url);
         return this.http.put(url, tableDefinition).map(response => {return response.json()});
     }
 

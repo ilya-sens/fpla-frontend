@@ -1,6 +1,5 @@
-<h3>Columns</h3>
 <table class="table table-sm">
-    <thead>
+    <thead class="thead-default">
     <tr>
         <th>Name</th>
         <th>Type</th>
@@ -9,13 +8,50 @@
     </thead>
     <tbody>
     <tr *ngFor="let columnDefinition of tableDefinition.columnDefinitions">
-        <td>{{columnDefinition.name}}</td>
-        <td>{{columnDefinition.type}}</td>
         <td>
-            <button class="btn btn-sm btn-outline-danger">
+            <editable-element [(value)]="columnDefinition.name" (valueChange)="updateTableDefinition()">
+            </editable-element>
+        </td>
+        <td>
+            <editable-element [(value)]="columnDefinition.type" (valueChange)="updateTableDefinition()">
+            </editable-element>
+        </td>
+        <td>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteColumnDefinition(columnDefinition)">
                 <i class="fa fa-trash"></i>
             </button>
         </td>
     </tr>
+    <tr *ngFor="let columnDefinitionToAdd of columnDefinitionsToAdd">
+        <td>
+            <editable-element [(value)]="columnDefinitionToAdd.name">
+            </editable-element>
+        </td>
+        <td>
+            <editable-element [(value)]="columnDefinitionToAdd.type">
+            </editable-element>
+        </td>
+        <td>
+            <div class="btn-group">
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteColumnDefinitionToAdd(columnDefinitionToAdd)">
+                    <i class="fa fa-trash"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-success" (click)="createColumnDefinition(columnDefinitionToAdd)">
+                    <i class="fa fa-check"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
     </tbody>
 </table>
+
+<div class="btn-group">
+    <button class="btn btn-sm btn-outline-primary" (click)="addColumnDefinition()">
+        <i class="fa fa-plus"></i> add column
+    </button>
+    <button class="btn btn-sm btn-outline-success"
+            *ngIf="this.columnDefinitionsToAdd.length > 0"
+            (click)="createColumnDefinitions()">
+        <i class="fa fa-check"></i> apply
+    </button>
+</div>

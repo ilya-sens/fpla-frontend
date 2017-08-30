@@ -1,6 +1,6 @@
 <ng-container *ngIf="tableDefinitions">
     <table class="table table-sm">
-        <thead>
+        <thead class="thead-default">
         <tr>
             <th>Table Name</th>
             <th>Actions</th>
@@ -9,11 +9,22 @@
         <tbody>
         <ng-container *ngFor="let tableDefinition of tableDefinitions">
             <tr>
-                <td>{{tableDefinition.tableName}}</td>
                 <td>
-                    <button class="btn btn-sm btn-outline-primary" (click)="openDetails(tableDefinition)">
-                        <i class="fa fa-search"></i>
-                    </button>
+                    <editable-element [(value)]="tableDefinition.tableName"
+                                      (valueChange)="updateTableDefinition(tableDefinition)"
+                                      [editable]="true"
+                                      [type]="editableType.input">
+                    </editable-element>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-primary" (click)="openDetails(tableDefinition)">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="deleteTableDefinition(tableDefinition)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
             <tr *ngIf="watchingDetails(tableDefinition)">
@@ -23,6 +34,48 @@
                 </td>
             </tr>
         </ng-container>
+        <ng-container *ngFor="let tableDefinitionToCreate of tableDefinitionsToCreate">
+            <tr>
+                <td>
+                    <editable-element [(value)]="tableDefinitionToCreate.tableName"
+                                      [editable]="true"
+                                      [type]="editableType.input">
+                    </editable-element>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-success"
+                                (click)="createTableDefinition(tableDefinitionToCreate)">
+                            <i class="fa fa-check"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger"
+                                (click)="deleteTableDefinitionToCreate(tableDefinitionToCreate)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <app-gen-tables-details [tableDefinition]="tableDefinitionToCreate" [save]="false">
+                    </app-gen-tables-details>
+                </td>
+            </tr>
+        </ng-container>
         </tbody>
     </table>
+    <hr>
+    <div class="btn-group">
+        <button class="btn btn-sm btn-outline-primary" (click)="addTableDefinition()"><i class="fa fa-plus"></i> add table</button>
+        <button class="btn btn-sm btn-outline-success"
+                (click)="createTableDefinitions()"
+                *ngIf="tableDefinitionsToCreate.length > 0">
+            <i class="fa fa-check"></i> apply
+        </button>
+        <button class="btn btn-sm btn-outline-danger"
+                (click)="deleteAllTableDefinitionsToCreate()"
+                *ngIf="tableDefinitionsToCreate.length > 0">
+            <i class="fa fa-refresh"></i> cancel
+        </button>
+    </div>
 </ng-container>
