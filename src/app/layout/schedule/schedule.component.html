@@ -1,0 +1,99 @@
+<table class="table table-sm">
+    <thead class="thead-default">
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let schedule of schedules | orderBy:'id'">
+        <tr>
+            <td>{{schedule.name}}</td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-primary" (click)="watchSchedule(schedule)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="removeSchedule(schedule)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <tr *ngIf="watchingScheduleDetails(schedule)">
+            <td colspan="2">
+                <div class="card card-default mb-3">
+                    <div class="card-header">
+                        <div class="card-header-name">
+                            <editable-element
+                                [(value)]="schedule.name" (valueChange)="updateSchedule(schedule)">
+                            </editable-element>
+                        </div>
+                        <div class="card-header-dates">
+                            <div class="card-header-date">
+                                created: {{schedule.createdAt | date: dateFormat }}
+                            </div>
+                            <div class="card-header-date">
+                                updated: {{schedule.updatedAt | date: dateFormat }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">File name:
+                            <editable-element
+                                [(value)]="schedule.fileName" (valueChange)="updateSchedule(schedule)">
+                            </editable-element>
+                        </div>
+                        <editable-element
+                            [(value)]="schedule.sequence"
+                            (valueChange)="updateSchedule(schedule)"
+                            [type]="typeEnum.codeMirror">
+                        </editable-element>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-container>
+    <ng-container *ngFor="let scheduleToCreate of schedulesToCreate">
+        <tr>
+            <td colspan="2">
+                <div class="card card-default mb-3">
+                    <div class="card-header">
+                        <div class="card-header-name">
+                            <editable-element
+                                [(value)]="scheduleToCreate.name">
+                            </editable-element>
+                        </div>
+                        <div class="card-header-dates">
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">File name:
+                            <editable-element [(value)]="scheduleToCreate.fileName">
+                            </editable-element>
+                        </div>
+                        <editable-element [(value)]="scheduleToCreate.sequence"
+                                          [type]="typeEnum.codeMirror"></editable-element>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-container>
+    </tbody>
+</table>
+
+<div class="btn-group">
+    <button class="btn btn-sm btn-outline-primary" (click)="addScheduleToCreate()">
+        <i class="fa fa-plus"></i> add schedule
+    </button>
+    <button class="btn btn-sm btn-outline-success"
+            *ngIf="schedulesToCreate.length > 0"
+            (click)="createAllSchedulesToCreate()">
+        <i class="fa fa-check"></i> apply
+    </button>
+    <button class="btn btn-sm btn-outline-danger"
+            *ngIf="schedulesToCreate.length > 0"
+            (click)="removeAllSchedulesToCreate()">
+        <i class="fa fa-refresh"></i> cancel
+    </button>
+</div>

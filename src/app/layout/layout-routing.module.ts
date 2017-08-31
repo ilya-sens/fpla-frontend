@@ -7,6 +7,7 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             {path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
+            {path: 'schedule', loadChildren: './schedule/schedule.module#ScheduleModule'},
             {path: 'scenario', loadChildren: './scenario/scenario.module#ScenarioModule'},
             {path: 'runner', loadChildren: './runner/runner.module#RunnerModule'},
             {path: 'gen-tables', loadChildren: './gen-tables/gen-tables.module#GenTablesModule'},

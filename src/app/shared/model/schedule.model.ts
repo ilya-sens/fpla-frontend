@@ -1,12 +1,13 @@
 import {AbstractModel} from "./abstract.model";
 
-export class ScriptModel extends AbstractModel {
+export class ScheduleModel extends AbstractModel {
     name: string;
+    fileName: string;
     sequence: string;
 
     constructor() {
         super();
-        this.name = "new script";
+        this.name = "new schedule";
         this.sequence= "# todo implement";
     }
 }
