@@ -1,10 +1,20 @@
-<div >
-    <codemirror style="height: auto" [config]="{
+<div *ngIf="scenario">
+    <codemirror [config]="{
                 mode: 'python',
                 lineNumbers: true,
                 readOnly: 'nocursor'
              }" [(ngModel)]="scenario.sequence"></codemirror>
-    <div class="alert alert-danger" *ngFor="let exception of thread.exceptions">
+    <div class="alert alert-danger" *ngFor="let exception of thread.scenarioExceptions">
+        {{exception}}
+    </div>
+</div>
+<div *ngIf="schedule">
+    <codemirror [config]="{
+                mode: 'python',
+                lineNumbers: true,
+                readOnly: 'nocursor'
+             }" [(ngModel)]="schedule.file"></codemirror>
+    <div class="alert alert-danger" *ngFor="let exception of thread.scheduleExceptions">
         {{exception}}
     </div>
 </div>

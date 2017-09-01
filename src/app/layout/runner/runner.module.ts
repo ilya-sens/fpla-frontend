@@ -7,6 +7,7 @@ import {RunnerResourceService} from "../../shared/services/resources/runner-reso
 import {ScenarioResourceService} from "../../shared/services/resources/scenario-resource.service";
 import {CodemirrorModule} from "ng2-codemirror";
 import {FormsModule} from "@angular/forms";
+import {ScheduleResourceService} from "../../shared/services/resources/schedule-resource.service";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {FormsModule} from "@angular/forms";
     ],
     providers: [
         RunnerResourceService,
-        ScenarioResourceService
+        ScenarioResourceService,
+        ScheduleResourceService
     ],
     exports: [
         RunnerComponent

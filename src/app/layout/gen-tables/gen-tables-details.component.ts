@@ -11,7 +11,7 @@ import {ColumnDefinitionModel} from "../../shared/model/column-definition.model"
 })
 export class GenTablesDetailsComponent implements OnInit {
     @Input() tableDefinition: TableDefinitionModel;
-    @Input() save: boolean = false;
+    @Input() save: boolean = true;
     columnDefinitionsToAdd: Array<ColumnDefinitionModel> = [];
 
     editableType = TypeEnum;
@@ -36,7 +36,9 @@ export class GenTablesDetailsComponent implements OnInit {
         let index: number = this.tableDefinition.columnDefinitions.indexOf(columnDefinition);
         if (index > -1) {
             this.tableDefinition.columnDefinitions.splice(index, 1);
-            if (this.save) this.updateTableDefinition()
+            if (this.save) {
+                this.updateTableDefinition();
+            }
         }
     }
 
@@ -45,15 +47,11 @@ export class GenTablesDetailsComponent implements OnInit {
     }
 
     createColumnDefinition(columnDefinition: ColumnDefinitionModel) {
-        this.columnDefinitionsToAdd.forEach(((value, index) => {
-            if (columnDefinition === value) {
-                this.tableDefinition.columnDefinitions.push(value);
-                let index: number = this.columnDefinitionsToAdd.indexOf(columnDefinition);
-                if (index > -1) {
-                    this.tableDefinition.columnDefinitions.splice(index, 1);
-                }
-            }
-        }));
+        this.tableDefinition.columnDefinitions.push(columnDefinition);
+        let index: number = this.columnDefinitionsToAdd.indexOf(columnDefinition);
+        if (index > -1) {
+            this.columnDefinitionsToAdd.splice(index, 1);
+        }
         if (this.save) this.updateTableDefinition();
     }
 

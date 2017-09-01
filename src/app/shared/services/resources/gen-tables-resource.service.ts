@@ -36,6 +36,6 @@ export class GenTablesResourceService {
         let url: string = GlobalConfig.BASE_GENDB_URL + "table/" + id;
         url += urlSuffix ? urlSuffix : "";
 
-        return this.http.delete(url).map(response => {return response.json()});
+        return this.http.delete(url).map(response => {return response});
     }
 }

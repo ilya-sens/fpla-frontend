@@ -5,10 +5,13 @@ import {RunnerResourceService} from "../../shared/services/resources/runner-reso
 import {ScenarioResourceService} from "../../shared/services/resources/scenario-resource.service";
 
 import {ThreadModel} from "../../shared/model/thread.model";
+import {ScheduleModel} from "../../shared/model/schedule.model";
+import {ScheduleResourceService} from "../../shared/services/resources/schedule-resource.service";
 
 export enum RunnerListTypesEnum {
     onlyScenario,
-    defaultType
+    onlySchedule,
+    defaultType,
 }
 
 @Component({
@@ -18,8 +21,10 @@ export enum RunnerListTypesEnum {
 })
 export class RunnerComponent implements OnInit, OnDestroy {
     @Input() scenario: ScenarioModel;
+    @Input() schedule: ScheduleModel;
     @Input() runnerListType: RunnerListTypesEnum = RunnerListTypesEnum.defaultType;
     scenarios: Array<ScenarioModel>;
+    schedules: Array<ScheduleModel>;
     threads: Array<ThreadModel> = [];
 
     openedDetails: Array<string> = [];
@@ -29,14 +34,15 @@ export class RunnerComponent implements OnInit, OnDestroy {
 
     constructor(private runnerResource: RunnerResourceService,
                 private scenarioResource: ScenarioResourceService,
+                private scheduleResource: ScheduleResourceService,
                 ) {
     }
 
     ngOnInit(): void {
         if (this.runnerListType == RunnerListTypesEnum.defaultType) {
             this.scenarioResource.get().subscribe(result => this.scenarios = result.data);
+            this.scheduleResource.get().subscribe(result => this.schedules = result.data);
         }
-        this.scenarioResource.get().subscribe(result => this.scenarios = result.data);
         this.sub = Observable.timer(0, 3000).map(() => this.getRunnerStatus()).subscribe();
     }
 
@@ -51,8 +57,8 @@ export class RunnerComponent implements OnInit, OnDestroy {
                     return it.runningThread == resultThread.runningThread
                 });
                 if (found) {
-                    if (found.line != resultThread.line) found.line = resultThread.line;
-                    if (found.exceptions != resultThread.exceptions) found.exceptions = resultThread.exceptions;
+                    if (found.scenarioLine != resultThread.scenarioLine) found.scenarioLine = resultThread.scenarioLine;
+                    if (found.scenarioExceptions != resultThread.scenarioExceptions) found.scenarioExceptions = resultThread.scenarioExceptions;
                 } else {
                     this.threads.push(resultThread);
                 }
@@ -79,11 +85,19 @@ export class RunnerComponent implements OnInit, OnDestroy {
         return this.scenarios.find(it => {return it.id == scenarioId});
     }
 
+    getScheduleById(schduleId: number) {
+        return this.schedules.find(it => {return it.id == schduleId})
+    }
+
     getThreads() {
         switch (this.runnerListType) {
             case RunnerListTypesEnum.onlyScenario:
                 return this.threads.filter(thread => {
                     return thread.scenarioId == this.scenario.id
+                });
+            case RunnerListTypesEnum.onlySchedule:
+                return this.threads.filter(thread => {
+                    return thread.scheduleId == this.schedule.id
                 });
             case RunnerListTypesEnum.defaultType:
                 return this.threads

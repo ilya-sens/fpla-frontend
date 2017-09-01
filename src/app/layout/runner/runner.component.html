@@ -2,6 +2,7 @@
     <thead class="thead-default">
     <tr>
         <th>Scenario</th>
+        <th>Schedule</th>
         <th>Errors</th>
         <th>Actions</th>
     </tr>
@@ -9,8 +10,9 @@
     <tbody>
     <ng-container *ngFor="let thread of getThreads()">
         <tr>
-            <td>{{getScenarioById(thread.scenarioId).name}}</td>
-            <td><span *ngIf="thread.exceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
+            <td><span *ngIf="getScenarioById(thread.scenarioId)">{{getScenarioById(thread.scenarioId).name}}</span></td>
+            <td><span *ngIf="getScheduleById(thread.scheduleId)">{{getScheduleById(thread.scheduleId).name}}</span></td>
+            <td><span *ngIf="thread.scenarioExceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
@@ -23,6 +25,7 @@
         <tr *ngIf="watchingDetails(thread.runningThread)">
             <td colspan="3">
                 <app-details-runner
+                    *ngIf="getScenarioById(thread.scenarioId)"
                     [scenario]="getScenarioById(thread.scenarioId)"
                     [thread]="thread">
                 </app-details-runner>

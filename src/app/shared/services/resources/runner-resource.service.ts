@@ -12,7 +12,7 @@ export class RunnerResourceService {
     ) {}
 
     public getStatus(id?: string, urlSuffix?: string): Observable<any> {
-        let url: string = GlobalConfig.BASE_RUNNER_URL + "scenario/status";
+        let url: string = GlobalConfig.BASE_RUNNER_URL + "status";
         url += id ? "/" + id : "";
         url += urlSuffix ? urlSuffix : "";
 
@@ -25,7 +25,7 @@ export class RunnerResourceService {
     }
 
     public stop(id: string) {
-        return this.http.get(GlobalConfig.BASE_RUNNER_URL + "scenario/stop/" + id)
+        return this.http.get(GlobalConfig.BASE_RUNNER_URL + "stop/" + id)
             .map(response => {return response.json()});
     }
 }
