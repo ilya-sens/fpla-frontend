@@ -1,13 +1,38 @@
-<div *ngFor="let scenario of scenarios; let scenarioIndex = index" class="row">
-    <div class="col-sm-12 col-xl-8">
-        <app-scenario-details [full]="false"
-                              [loadFromOutside]="true"
-                              [scenario]="scenario"
-                              [scenarioScripts]="scenarioScripts"
-                              [scripts]="scripts"
-                              (scenarioChange)="loadData()" >
-        </app-scenario-details>
-    </div>
+<div  class="row">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let scenario of scenarios; let scenarioIndex = index">
+                <tr>
+                    <td>{{scenario.name}}</td>
+                    <td>
+                        <button class="btn btn-sm"
+                                [class.btn-outline-primary]="!watchingScenario(scenario)"
+                                [class.btn-primary]="watchingScenario(scenario)"
+                                (click)="switchWatchScenario(scenario)">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="watchingScenario(scenario)">
+                    <td colspan="2">
+                        <app-scenario-details [full]="true"
+                                              [loadFromOutside]="true"
+                                              [scenario]="scenario"
+                                              [scenarioScripts]="scenarioScripts"
+                                              [scripts]="scripts"
+                                              (scenarioChange)="loadData()">
+                        </app-scenario-details>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
 </div>
 <div class="pull-right">
     <div class="btn-group" role="group">

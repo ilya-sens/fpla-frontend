@@ -26,6 +26,7 @@ export class ScenarioComponent implements OnInit {
 
     dateFormat: String = GlobalConfig.DATE_FORMAT;
     typeEnum = TypeEnum;
+    private watchingScenarios: Array<ScenarioModel> = [];
 
     constructor(private scriptResource: ScriptResourceService,
                 private scenarioResource: ScenarioResourceService,
@@ -66,5 +67,18 @@ export class ScenarioComponent implements OnInit {
         this.scriptResource.get().subscribe(it => {
             console.log(it)
         });
+    }
+
+    watchingScenario(scenario: ScenarioModel) {
+        return this.watchingScenarios.indexOf(scenario) > -1;
+    }
+
+    switchWatchScenario(scenario: ScenarioModel) {
+        let index: number = this.watchingScenarios.indexOf(scenario);
+        if (index > -1) {
+            this.watchingScenarios.splice(index, 1);
+        } else {
+            this.watchingScenarios.push(scenario);
+        }
     }
 }
