@@ -14,17 +14,20 @@ export enum RunnerListTypesEnum {
     defaultType,
 }
 
+/**
+ * RunnerComponent. If RunnerListType is Scenario or Schedule @Input scenario or schedule is must.
+ */
 @Component({
     selector: 'app-runner',
     templateUrl: './runner.component.html',
     styleUrls: ['./runner.component.scss'],
 })
 export class RunnerComponent implements OnInit, OnDestroy {
+    @Input() runnerListType: RunnerListTypesEnum = RunnerListTypesEnum.defaultType;
     @Input() scenario: ScenarioModel;
     @Input() schedule: ScheduleModel;
-    @Input() runnerListType: RunnerListTypesEnum = RunnerListTypesEnum.defaultType;
-    scenarios: Array<ScenarioModel>;
-    schedules: Array<ScheduleModel>;
+    @Input() scenarios: Array<ScenarioModel>;
+    @Input() schedules: Array<ScheduleModel>;
     threads: Array<ThreadModel> = [];
 
     openedDetails: Array<string> = [];
@@ -39,8 +42,10 @@ export class RunnerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        if (this.runnerListType == RunnerListTypesEnum.defaultType) {
+        if (!this.scenarios) {
             this.scenarioResource.get().subscribe(result => this.scenarios = result.data);
+        }
+        if (!this.schedules) {
             this.scheduleResource.get().subscribe(result => this.schedules = result.data);
         }
         this.sub = Observable.timer(0, 3000).map(() => this.getRunnerStatus()).subscribe();
@@ -65,11 +70,11 @@ export class RunnerComponent implements OnInit, OnDestroy {
             });
 
             this.threads.forEach((existingThread, index) => {
-                let foundResultThread = result.find(it => {
+                let found: ThreadModel = result.find(it => {
                     return it.runningThread == existingThread.runningThread
                 });
-                if (!foundResultThread) {
-                    delete this.threads[index];
+                if (!found) {
+                    this.threads.splice(index, 1);
                 }
             })
         })
@@ -85,8 +90,8 @@ export class RunnerComponent implements OnInit, OnDestroy {
         return this.scenarios.find(it => {return it.id == scenarioId});
     }
 
-    getScheduleById(schduleId: number) {
-        return this.schedules.find(it => {return it.id == schduleId})
+    getScheduleById(scheduleId: number) {
+        return this.schedules.find(it => {return it.id == scheduleId})
     }
 
     getThreads() {

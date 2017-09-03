@@ -12,7 +12,11 @@
         <tr>
             <td><span *ngIf="getScenarioById(thread.scenarioId)">{{getScenarioById(thread.scenarioId).name}}</span></td>
             <td><span *ngIf="getScheduleById(thread.scheduleId)">{{getScheduleById(thread.scheduleId).name}}</span></td>
-            <td><span *ngIf="thread.scenarioExceptions"><i class="fa fa-2x fa-exclamation-circle"></i></span></td>
+            <td>
+                <span *ngIf="thread.scenarioExceptions && thread.scenarioExceptions.length > 0">
+                    <i class="fa fa-2x fa-exclamation-circle text-danger"></i>
+                </span>
+            </td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
