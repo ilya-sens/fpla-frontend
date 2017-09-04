@@ -27,12 +27,13 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
     @Input() scenarioScripts: Array<ScenarioScriptModel>;
     @Input() full: boolean = true;
     @Input() loadFromOutside: boolean = false;
-    @Output() scenarioChange: EventEmitter<Boolean> = new EventEmitter();
+    @Output() scenarioChanged: EventEmitter<ScenarioModel> = new EventEmitter();
+    @Output() reloadScripts: EventEmitter<Boolean> = new EventEmitter();
+    @Output() scriptsChanged: EventEmitter<Array<ScriptModel>> = new EventEmitter();
+    @Output() scenarioScriptsChanged: EventEmitter<Array<ScenarioScriptModel>> = new EventEmitter();
 
-    timerSub: any;
     sub: any;
     id: number;
-    runningScripts: Array<any>;
 
     runnerListTypes = RunnerListTypesEnum;
     dateFormat: String = GlobalConfig.DATE_FORMAT;
@@ -59,24 +60,34 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
     }
 
     loadData() {
-        if (!this.loadFromOutside) {
-            Observable.forkJoin(
-                this.scenarioResource.get(this.id),
-                this.scenarioScriptResource.get(),
-                this.scriptResource.get(),
-            ).subscribe(results => {
-                this.scenario = results[0].data;
+        Observable.forkJoin(
+            this.scenarioResource.get(this.id),
+            this.scenarioScriptResource.get(),
+            this.scriptResource.get(),
+        ).subscribe(results => {
+            this.scenario = results[0].data;
+            this.scenarioScripts = results[1].data;
+            this.scripts = results[2].data;
+        });
+    }
+
+    loadScripts() {
+        Observable.forkJoin([
+            this.scriptResource.get(),
+            this.scenarioScriptResource.get(),
+        ]).subscribe(
+            results => {
+                this.scripts = results[0].data;
                 this.scenarioScripts = results[1].data;
-                this.scripts = results[2].data;
-            });
-        } else {
-            this.scenarioChange.next(true);
-        }
+            }
+        );
     }
 
     generateScenarioFile(scenario: ScenarioModel) {
         this.scenarioResource.get(scenario.id, "/generate").subscribe(ignore => {
-            this.loadData()
+            this.scenarioResource.get(scenario.id).subscribe(updatedScenario => {
+                this.scenario = updatedScenario.data;
+            });
         })
     }
 
@@ -112,7 +123,8 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
 
     updateScenario(scenario) {
         this.scenarioResource.update(scenario).subscribe(result => {
-            this.loadData();
+            scenario = result.data;
+            this.scenarioChanged.emit(scenario);
             this.alertService.success(result.message);
         });
     }
@@ -149,13 +161,17 @@ export class ScenarioDetailsComponent implements OnInit, OnDestroy {
             script = result.data
         });
         this.createScenarioScript(scenario, script);
-        this.loadData();
+        this.scenarioScriptsChanged.next(this.scenarioScripts);
+        this.scriptsChanged.next(this.scripts);
+        // this.loadData();
+        this.loadScripts();
     }
 
     addScript(scenario, scriptIndex) {
         let script: ScriptModel = this.scripts[scriptIndex];
         this.createScenarioScript(scenario, script);
-        this.loadData();
+        this.loadScripts();
+        // this.loadData();
     }
 
     deleteScenarioScript(scenarioScript) {

@@ -23,10 +23,9 @@
                     <td colspan="2">
                         <app-scenario-details [full]="true"
                                               [loadFromOutside]="true"
-                                              [scenario]="scenario"
-                                              [scenarioScripts]="scenarioScripts"
-                                              [scripts]="scripts"
-                                              (scenarioChange)="loadData()">
+                                              [(scenario)]="scenarios[scenarioIndex]"
+                                              [(scenarioScripts)]="scenarioScripts"
+                                              [(scripts)]="scripts">
                         </app-scenario-details>
                     </td>
                 </tr>
@@ -39,6 +38,3 @@
         <button class="btn btn-secondary" (click)="createScenario()">New Scenario</button>
     </div>
 </div>
-
-<button class="btn btn-danger" (click)="log()">LOG</button>
-
