@@ -4,7 +4,14 @@
         <th>Scenario</th>
         <th>Schedule</th>
         <th>Errors</th>
-        <th>Actions</th>
+        <th>Actions
+            <button class="btn btn-sm"
+                    [class.btn-danger]="isDeletingEnabled"
+                    [class.btn-outline-danger]="!isDeletingEnabled"
+                    (click)="isDeletingEnabled = !isDeletingEnabled">
+                {{isDeletingEnabled ? 'Disable stopping' : 'Enable stopping'}}
+            </button>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -19,9 +26,11 @@
             </td>
             <td>
                 <div class="btn-group">
-                    <button class="btn btn-sm btn-outline-primary" (click)="openDetails(thread.runningThread)">
+                    <button class="btn btn-sm btn-outline-primary" (click)="switchOpenDetails(thread.runningThread)">
                         <i class="fa fa-search"></i></button>
-                    <button class="btn btn-sm btn-outline-danger" (click)="stopThread(thread)">
+                    <button class="btn btn-sm btn-outline-danger"
+                            [disabled]="!isDeletingEnabled"
+                            (click)="stopThread(thread)">
                         <i class="fa fa-trash"></i></button>
                 </div>
             </td>

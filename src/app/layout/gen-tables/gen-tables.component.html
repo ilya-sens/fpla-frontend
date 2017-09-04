@@ -3,7 +3,14 @@
         <thead class="thead-default">
         <tr>
             <th>Table Name</th>
-            <th>Actions</th>
+            <th>Actions
+                <button class="btn btn-sm"
+                        [class.btn-danger]="isDeletingEnabled"
+                        [class.btn-outline-danger]="!isDeletingEnabled"
+                        (click)="isDeletingEnabled = !isDeletingEnabled">
+                    {{isDeletingEnabled ? 'Disable deleting' : 'Enable deleting'}}
+                </button>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -18,13 +25,21 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-sm btn-outline-primary" (click)="openDetails(tableDefinition)">
+                        <button class="btn btn-sm"
+                                [class.btn-outline-primary]="!watchingDetails(tableDefinition)"
+                                [class.btn-primary]="watchingDetails(tableDefinition)"
+                                (click)="switchOpenDetails(tableDefinition)">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-primary" (click)="openCrud(tableDefinition)">
+                        <button class="btn btn-sm"
+                                [class.btn-outline-primary]="!watchingCrud(tableDefinition)"
+                                [class.btn-primary]="watchingCrud(tableDefinition)"
+                                (click)="switchOpenCrud(tableDefinition)">
                             <i class="fa fa-table"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" (click)="deleteTableDefinition(tableDefinition)">
+                        <button class="btn btn-sm btn-outline-danger"
+                                [disabled]="!isDeletingEnabled"
+                                (click)="deleteTableDefinition(tableDefinition)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>

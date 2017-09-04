@@ -12,11 +12,11 @@ import {TypeEnum} from "../../shared/modules/editable-element/editable-element.c
 export class GenTablesComponent implements OnInit {
     tableDefinitions: Array<TableDefinitionModel>;
     tableDefinitionsToCreate: Array<TableDefinitionModel> = [];
-    openedCruds: Array<TableDefinitionModel> = [];
+    private openedCruds: Array<number> = [];
+    private openedDetails: Array<number> = [];
 
+    isDeletingEnabled = false;
     editableType = TypeEnum;
-
-    private openedTableDefinitionDetails: Array<number> = [];
 
     constructor(private genTablesResource: GenTablesResourceService,) {
     }
@@ -32,11 +32,15 @@ export class GenTablesComponent implements OnInit {
     }
 
     watchingDetails(tableDefinition: TableDefinitionModel): boolean {
-        return this.openedTableDefinitionDetails.includes(tableDefinition.id);
+        return this.openedDetails.indexOf(tableDefinition.id) > -1;
     }
 
-    openDetails(tableDefinition: TableDefinitionModel) {
-        this.openedTableDefinitionDetails.push(tableDefinition.id);
+    switchOpenDetails(tableDefinition: TableDefinitionModel) {
+        let openedDetailsIndex: number = this.openedDetails.indexOf(tableDefinition.id);
+        if (openedDetailsIndex > -1)
+            this.openedDetails.splice(openedDetailsIndex, 1);
+        else
+            this.openedDetails.push(tableDefinition.id);
     }
 
     updateTableDefinition(tableDefinition: TableDefinitionModel) {
@@ -85,11 +89,15 @@ export class GenTablesComponent implements OnInit {
         }
     }
 
-    openCrud(tableDefinition: TableDefinitionModel) {
-        this.openedCruds.push(tableDefinition);
+    switchOpenCrud(tableDefinition: TableDefinitionModel) {
+        let openedCrudIndex: number = this.openedCruds.indexOf(tableDefinition.id);
+        if (openedCrudIndex > -1)
+            this.openedCruds.splice(openedCrudIndex, 1);
+        else
+            this.openedCruds.push(tableDefinition.id);
     }
 
     watchingCrud(tableDefinition: TableDefinitionModel) {
-        return this.openedCruds.indexOf(tableDefinition) > -1;
+        return this.openedCruds.indexOf(tableDefinition.id) > -1;
     }
 }

@@ -9,7 +9,14 @@
                 {{columnDefinition.type}}
             </span>
         </th>
-        <th>Actions</th>
+        <th>Actions
+            <button class="btn btn-sm"
+                    [class.btn-danger]="isDeletingEnabled"
+                    [class.btn-outline-danger]="!isDeletingEnabled"
+                    (click)="isDeletingEnabled = !isDeletingEnabled">
+                {{isDeletingEnabled ? 'Disable deleting' : 'Enable deleting'}}
+            </button>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -20,7 +27,9 @@
         </td>
         <td>
             <div class="btn-group">
-                <button class="btn btn-sm btn-outline-danger" (click)="deleteRow(row)">
+                <button class="btn btn-sm btn-outline-danger"
+                        [disabled]="!isDeletingEnabled"
+                        (click)="deleteRow(row)">
                     <i class="fa fa-trash"></i>
                 </button>
             </div>

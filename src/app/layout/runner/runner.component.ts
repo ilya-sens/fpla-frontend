@@ -32,6 +32,7 @@ export class RunnerComponent implements OnInit, OnDestroy {
 
     openedDetails: Array<string> = [];
     sub: any;
+    isDeletingEnabled: boolean = false;
 
     runnerListTypesEnum = RunnerListTypesEnum;
 
@@ -109,11 +110,15 @@ export class RunnerComponent implements OnInit, OnDestroy {
         }
     }
 
-    openDetails(runningThread: string) {
-        this.openedDetails.push(runningThread);
+    switchOpenDetails(runningThread: string) {
+        let index: number = this.openedDetails.indexOf(runningThread);
+        if (index > -1)
+            this.openedDetails.splice(index, 1);
+        else
+            this.openedDetails.push(runningThread);
     }
 
     watchingDetails(runningThread: string) {
-        return this.openedDetails.includes(runningThread);
+        return this.openedDetails.indexOf(runningThread) > -1;
     }
 }

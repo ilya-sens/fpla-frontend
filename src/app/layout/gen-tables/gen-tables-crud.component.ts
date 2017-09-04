@@ -13,6 +13,8 @@ export class GenTablesCrudComponent implements OnInit {
     rows: Array<any>;
     rowsToCreate: Array<any> = [];
 
+    isDeletingEnabled: boolean = false;
+
     constructor(
         private crudResource: GenTablesCrudResourceService
     ) {
