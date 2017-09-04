@@ -59,6 +59,8 @@
                     <i class="fa fa-check"></i> cancel
                 </button>
             </div>
+            <app-gen-tables-crud-bulk-adding (rowsGenerated)="handleRowsGenerated($event)">
+            </app-gen-tables-crud-bulk-adding>
         </td>
     </tr>
     </tbody>

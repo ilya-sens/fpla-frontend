@@ -8,6 +8,8 @@ import {FormsModule} from "@angular/forms";
 import {EditableElementModule} from "../../shared/modules/editable-element/editable-element.module";
 import {GenTablesCrudComponent} from "./gen-tables-crud.component";
 import {Ng2OrderModule} from "ng2-order-pipe";
+import {GenTablesCrudBulkAddingComponent} from "./gen-tables-crud-bulk-adding.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -18,14 +20,15 @@ import {Ng2OrderModule} from "ng2-order-pipe";
         FormsModule,
         EditableElementModule,
         Ng2OrderModule,
+        NgbModule.forRoot()
     ],
     declarations: [
         GenTablesComponent,
         GenTablesDetailsComponent,
-        GenTablesCrudComponent
+        GenTablesCrudComponent,
+        GenTablesCrudBulkAddingComponent,
     ],
-    providers: [
-    ],
+    providers: [],
     exports: [
         GenTablesComponent
     ]

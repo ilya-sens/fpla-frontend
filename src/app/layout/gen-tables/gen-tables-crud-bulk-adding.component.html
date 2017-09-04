@@ -1,0 +1,30 @@
+<button class="btn btn-sm btn-outline-primary" (click)="open(content)"><i class="fa fa-plus"></i> bulk add</button>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <editable-element [(value)]="pattern" style="width: 100%">
+            </editable-element>
+        </div>
+        <div class="row">
+            <editable-element [(value)]="bulkData"
+                              [type]="typeEnum.textArea" style="width: 100%">
+            </editable-element>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-success" (click)="apply()">
+                <i class="fa fa-refresh"></i> apply
+            </button>
+            <button type="button" class="btn btn-outline-danger" (click)="c('Close click')">
+                <i class="fa fa-refresh"></i> cancel
+            </button>
+        </div>
+    </div>
+</ng-template>

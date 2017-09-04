@@ -79,4 +79,11 @@ export class GenTablesCrudComponent implements OnInit {
             this.createRow(rowToCreate);
         });
     }
+
+    handleRowsGenerated(generatedRows: Array<any>) {
+        // todo here must be checked if genereated rows' keys are same with columns of tableDefinition
+        generatedRows.forEach(row => {
+            this.rowsToCreate.push(row);
+        });
+    }
 }
