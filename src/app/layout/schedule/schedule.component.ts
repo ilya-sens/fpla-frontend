@@ -3,6 +3,7 @@ import {GlobalConfig} from "../../global";
 import {TypeEnum} from "../../shared/modules/editable-element/editable-element.component";
 import {ScheduleResourceService} from "../../shared/services/resources/schedule-resource.service";
 import {ScheduleModel} from "../../shared/model/schedule.model";
+import {AuthHttp} from "angular2-jwt";
 
 @Component({
     selector: 'app-schedule-component',
@@ -19,6 +20,7 @@ export class ScheduleComponent implements OnInit {
 
     constructor(
         private scheduleResource: ScheduleResourceService,
+        private http: AuthHttp
     ) {}
 
     ngOnInit() {
@@ -43,6 +45,22 @@ export class ScheduleComponent implements OnInit {
 
     updateSchedule(schedule: ScheduleModel) {
         this.scheduleResource.update(schedule).subscribe(ignore => this.loadData());
+    }
+
+    generateFile(schedule: ScheduleModel) {
+        this.scheduleResource.get(schedule.id, "/generate").subscribe(ignore => {
+            this.scheduleResource.get(schedule.id).subscribe(updatedSchedule => {
+                schedule = updatedSchedule;
+            });
+        });
+    }
+
+    runSchedule(schedule: ScheduleModel) {
+        this.http.post(GlobalConfig.BASE_RUNNER_URL + "schedule/run", schedule)
+            .map(response => {
+                return response.json()
+            })
+            .subscribe();
     }
 
     addScheduleToCreate() {

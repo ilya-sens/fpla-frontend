@@ -44,12 +44,23 @@
                                 [(value)]="schedule.fileName" (valueChange)="updateSchedule(schedule)">
                             </editable-element>
                         </div>
+                        <pre>{{schedule.file}}</pre>
                         <editable-element
                             [(value)]="schedule.sequence"
                             (valueChange)="updateSchedule(schedule)"
                             [type]="typeEnum.codeMirror">
                         </editable-element>
                     </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-primary"
+                        (click)="generateFile(schedule)">
+                        <i class="fa fa-refresh"></i> generate
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary"
+                        (click)="runSchedule(schedule)">
+                        <i class="fa fa-play"></i> run
+                    </button>
                 </div>
             </td>
         </tr>

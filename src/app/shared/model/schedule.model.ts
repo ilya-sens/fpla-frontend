@@ -9,7 +9,7 @@ export class ScheduleModel extends AbstractModel {
     constructor() {
         super();
         this.name = "new schedule";
-        this.name = "new_schedule.py";
+        this.fileName = "new_schedule.py";
         this.sequence= "# todo implement";
     }
 }
